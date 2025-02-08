@@ -37,7 +37,7 @@ services:
         image: nginx
         container_name: fpin-nginx
         volumes:
-            - ./nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
         networks:
             - sw_sw-network
             - pindb-network
