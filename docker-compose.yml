@@ -1,0 +1,53 @@
+services:
+    django:
+        build:
+            context: ./back
+            target: dev
+            dockerfile: Dockerfile
+        volumes:
+            - "./back:/app"
+        env_file:
+            - .env
+        networks:
+            - pindb-network
+        depends_on:
+            - postgres
+    postgres:
+        image: postgres:15
+        env_file:
+            - .env
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        networks:
+            - pindb-network
+    react:
+        build:
+            context: ./front
+            dockerfile: Dockerfile
+        volumes:
+            - "./front:/app"
+            - /app/node_modules
+        networks:
+            - pindb-network
+        # dns:
+        #     - 8.8.8.8
+        depends_on:
+            - django
+    nginx:
+        image: nginx
+        container_name: fpin-nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - sw_sw-network
+            - pindb-network
+        restart: always
+        depends_on:
+            - react
+            - django
+networks:
+    pindb-network:
+    sw_sw-network:
+        external: true
+volumes:
+    postgres-data:
