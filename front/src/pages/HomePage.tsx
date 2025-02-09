@@ -21,7 +21,7 @@ export default function HomePage() {
 
     return (
         <LayoutComponent>
-            <Space>
+            <Space direction={"vertical"}>
                 <Typography.Title level={2}>Добро пожаловать!</Typography.Title>
 
                 {
