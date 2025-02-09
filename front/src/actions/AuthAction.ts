@@ -24,7 +24,8 @@ export const login = (username: string, password: string) => {
 export const fetchCurrentUser = () => {
     const access_token = store.getState().auth.access_token;
     if (!access_token) {
-        store.dispatch(authSlice.actions.setCurrentUser(null));
+        store.dispatch(authSlice.actions.logout());
+        return;
     }
 
     store.dispatch(authSlice.actions.setUserLoading());
@@ -33,8 +34,9 @@ export const fetchCurrentUser = () => {
         .get("/auth/me/", { withCredentials: true })
         .then((res) => {
             store.dispatch(authSlice.actions.setCurrentUser(res.data));
+            store.dispatch(authSlice.actions.setUserIdle());
         })
         .catch(() => {
-            store.dispatch(authSlice.actions.setCurrentUser(null));
+            store.dispatch(authSlice.actions.logout());
         });
 };

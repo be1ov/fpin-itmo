@@ -33,13 +33,13 @@ export const authSlice = createSlice({
             state.user = null;
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
+            state.status = "idle";
         },
         setUserLoading: (state) => {
             state.status = "loading";
         },
         setCurrentUser: (state, action: any) => {
             state.user = action.payload;
-            state.status = "idle";
         },
         setUserIdle: (state) => {
             state.status = "idle";
