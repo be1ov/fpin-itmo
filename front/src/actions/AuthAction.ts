@@ -1,28 +1,9 @@
 import { authSlice } from "../redux/slices/AuthSlice.ts";
-import axios from "../utils/axios.ts";
 import { store } from "../redux/store.ts";
-import {fetchEducationData} from "./EducationAction.ts";
-
-// export const login = (username: string, password: string) => async (dispatch: AppDispatch) => {
-//     try {
-//         const response = await axios.post('/auth/token/', { username, password });
-//         dispatch(loginSuccess({
-//             access_token: response.data.access,
-//             refresh_token: response.data.refresh
-//         }));
-//         return Promise.resolve();
-//     } catch (error) {
-//         console.error('Login failed', error);
-//         return Promise.reject()
-//     }
-// }
-
-// export const login = (username: string, password: string) => {
-
-// }
+import axiosInstance from "../utils/axios.ts";
 
 export const login = (username: string, password: string) => {
-    return axios
+    return axiosInstance
         .post("/auth/token/", { username, password })
         .then((res) => {
             store.dispatch(
@@ -31,7 +12,6 @@ export const login = (username: string, password: string) => {
                     refresh_token: res.data.refresh,
                 })
             );
-            fetchEducationData();
             return fetchCurrentUser();
         })
         .catch((error) => {
@@ -49,12 +29,12 @@ export const fetchCurrentUser = () => {
 
     store.dispatch(authSlice.actions.setUserLoading());
 
-    axios
+    axiosInstance
         .get("/auth/me/", { withCredentials: true })
         .then((res) => {
             store.dispatch(authSlice.actions.setCurrentUser(res.data));
         })
-        .catch((err) => {
+        .catch(() => {
             store.dispatch(authSlice.actions.setCurrentUser(null));
         });
 };
