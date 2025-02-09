@@ -27,8 +27,14 @@ function App() {
 
     useEffect(() => {
         fetchCurrentUser();
-        fetchEducationData();
     }, []);
+
+    useEffect(() => {
+        if (!auth.user) {
+            return
+        }
+        fetchEducationData();
+    }, [auth.user]);
 
     const themeConfig = useMemo(() => {
         return {
