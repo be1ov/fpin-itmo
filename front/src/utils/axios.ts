@@ -43,7 +43,7 @@ axiosInstance.interceptors.response.use(
                 store.dispatch(authSlice.actions.updateAccessToken(access));
                 originalRequest.headers["Authorization"] = `Bearer ${access}`;
 
-                return axios(originalRequest);
+                return axiosInstance(originalRequest);
             } catch (refreshError) {
                 console.error("Token refresh failed", refreshError);
                 store.dispatch(authSlice.actions.logout());
