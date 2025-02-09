@@ -55,7 +55,13 @@ function App() {
 
     if (auth.status == "loading") {
         return <ConfigProvider theme={themeConfig}>
-            <Layout>
+            <Layout style={{
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
                 <Spin/>
             </Layout>
         </ConfigProvider>;
