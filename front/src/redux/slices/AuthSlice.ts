@@ -45,7 +45,6 @@ export const authSlice = createSlice({
             state.status = "idle";
         },
         updateAccessToken: (state, action) => {
-            state.status = "idle";
             state.access_token = action.payload;
             localStorage.setItem("access_token", action.payload);
         },

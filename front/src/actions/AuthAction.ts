@@ -1,10 +1,10 @@
-import { authSlice } from "../redux/slices/AuthSlice.ts";
-import { store } from "../redux/store.ts";
+import {authSlice} from "../redux/slices/AuthSlice.ts";
+import {store} from "../redux/store.ts";
 import axiosInstance from "../utils/axios.ts";
 
 export const login = (username: string, password: string) => {
     return axiosInstance
-        .post("/auth/token/", { username, password })
+        .post("/auth/token/", {username, password})
         .then((res) => {
             store.dispatch(
                 authSlice.actions.loginSuccess({
@@ -31,12 +31,15 @@ export const fetchCurrentUser = () => {
     store.dispatch(authSlice.actions.setUserLoading());
 
     axiosInstance
-        .get("/auth/me/", { withCredentials: true })
+        .get("/auth/me/", {withCredentials: true})
         .then((res) => {
-            store.dispatch(authSlice.actions.setCurrentUser(res.data));
-            store.dispatch(authSlice.actions.setUserIdle());
+            if (res.status != 401 && res.status != 403) {
+                store.dispatch(authSlice.actions.setCurrentUser(res.data));
+                store.dispatch(authSlice.actions.setUserIdle());
+            }
         })
         .catch(() => {
+            store.dispatch(authSlice.actions.setUserIdle());
             store.dispatch(authSlice.actions.logout());
         });
 };
