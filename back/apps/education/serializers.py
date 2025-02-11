@@ -65,6 +65,9 @@ class LessonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class PointsEntranceSerializer(serializers.ModelSerializer):
+    author = ServiceUserSerializer(read_only=True)
+    student = StudentSerializer(read_only=True)
+    task_submission = TaskSubmissionSerializer(read_only=True)
     class Meta:
         model = PointsEntrance
         fields = '__all__'
