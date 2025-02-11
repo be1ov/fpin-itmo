@@ -10,9 +10,9 @@ from apps.education.actions.semester import current_semester
 from apps.education.actions.students import get_student
 from apps.education.actions.tasks import get_assigned_tasks, get_submission, get_submission_statuses, get_assignment, \
     get_submission_by_id
-from apps.education.models import Semester, TaskSubmissionStatus, TaskSubmission, Student
+from apps.education.models import Semester, TaskSubmissionStatus, TaskSubmission, Student, PointsEntrance
 from apps.education.serializers import SemesterSerializer, FlowSerializer, TaskAssignmentSerializer, \
-    TaskSubmissionSerializer, TaskSubmissionStatusSerializer
+    TaskSubmissionSerializer, TaskSubmissionStatusSerializer, PointsEntranceSerializer
 from db_lk.utils import date_from_request_or_now
 
 
@@ -144,11 +144,14 @@ class EducationViewSet(viewsets.GenericViewSet):
 
         statuses = get_submission_statuses(submission)
 
+        points = PointsEntrance.objects.filter(submission=submission).first()
+
         return Response({
             "status": "success",
             "data": {
                 "submission": TaskSubmissionSerializer(submission).data,
-                "statuses": TaskSubmissionStatusSerializer(statuses, many=True).data
+                "statuses": TaskSubmissionStatusSerializer(statuses, many=True).data,
+                "points": PointsEntranceSerializer(points).data if points is not None else None
             }
         })
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Semester, Flow, TaskAssignment, TaskSubmission, TaskSubmissionStatus, Student, BarsState, \
-    TaskSubmissionStatusAttachment, Lesson
+    TaskSubmissionStatusAttachment, Lesson, PointsEntrance
 from ..persons.serializers import ServiceUserSerializer
 from ..tasks.models import Task
 
@@ -62,4 +62,9 @@ class TaskSubmissionStatusAttachmentSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
+        fields = '__all__'
+
+class PointsEntranceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PointsEntrance
         fields = '__all__'
