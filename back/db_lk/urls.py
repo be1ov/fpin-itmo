@@ -26,6 +26,7 @@ from apps.education.views import SemesterViewSet, EducationViewSet, AvailableFlo
     AddSubmissionStatusView
 from apps.education.views.bars import BarsStatesView
 from apps.education.views.lessons import LessonsView
+from apps.education.views.points import PointsView
 from apps.education.views.submissions import SubmissionStatusAttachments
 from apps.education.views.tasks import TaskView, TaskAssignView
 from apps.persons.views import PersonViewSet, CurrentUserView, UsersViewSet
@@ -48,6 +49,7 @@ api_urls = [
     path("lessons/", LessonsView.as_view()),
     path("files/upload/", FileUploadView.as_view()),
     path("lesson/upload_attendance/", UploadAttendanceView.as_view()),
+    path("points/", PointsView.as_view()),
     path("", include(router.urls)),
 ]
 
