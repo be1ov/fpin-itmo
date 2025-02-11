@@ -29,7 +29,7 @@ class PointsView(APIView):
                         "points": point.amount,
                         "author": ServiceUserSerializer(point.author).data,
                         "max": point.task_submission.assignment.max_points,
-                        "barsed_at": BarsStateSerializer(point.barsed_at).data,
+                        "barsed_at": BarsStateSerializer(point.bars_state).data,
                     }
                 for point in points]
             }
