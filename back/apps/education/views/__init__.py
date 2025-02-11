@@ -144,7 +144,7 @@ class EducationViewSet(viewsets.GenericViewSet):
 
         statuses = get_submission_statuses(submission)
 
-        points = PointsEntrance.objects.filter(submission=submission).first()
+        points = PointsEntrance.objects.filter(task_submission=submission).first()
 
         return Response({
             "status": "success",
