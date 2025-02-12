@@ -30,7 +30,7 @@ class PointsView(APIView):
                     "points": points.amount if points is not None else 0,
                     "author": ServiceUserSerializer(points.author).data if points is not None else None,
                     "max": assignment.max_points,
-                    "barsed_at": BarsStateSerializer(points.bars_state).data
+                    "barsed_at": BarsStateSerializer(points.bars_state).data if points is not None else None
                 })
 
         total = sum([point["points"] for point in data])
