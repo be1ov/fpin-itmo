@@ -80,7 +80,7 @@ export function TaskSubmissionCard({submissionId}: {
                 setIsOpen(false)
             }} onOk={() => {
                 axiosInstance.post("/v1/set_points/", {
-                    submission: submissionId,
+                    submission_id: submissionId,
                     comment: comment,
                     points: pointsAmount
                 }).then(res => {
