@@ -36,9 +36,9 @@ export function TaskSubmissionCard({submissionId}: {
     const [statuses, setStatuses] = useState<TaskSubmissionStatus[]>([]);
     const [points, setPoints] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    
+
     const [isOpen, setIsOpen] = useState(false)
-    
+
     useEffect(() => {
         setIsLoading(true)
         const fetchData = () => {
@@ -79,21 +79,21 @@ export function TaskSubmissionCard({submissionId}: {
             onCancel={() => {
                 setIsOpen(false)
             }} onOk={() => {
-                axiosInstance.post("/v1/set_points/", {
-                    submission_id: submissionId,
-                    comment: comment,
-                    points: pointsAmount
-                }).then(res => {
-                    notificationApi.success({
-                        message: "Оценка успешно сохранена"
-                    })
-                }).catch(res => {
-                    notificationApi.error({
-                        message: "При сохранении оценки произошла ошибка"
-                    })
-                }).finally(() => {
-                    setIsOpen(false)
+            axiosInstance.post("/v1/set_points/", {
+                submission_id: submissionId,
+                comment: comment,
+                points: pointsAmount
+            }).then(res => {
+                notificationApi.success({
+                    message: "Оценка успешно сохранена"
                 })
+            }).catch(res => {
+                notificationApi.error({
+                    message: "При сохранении оценки произошла ошибка"
+                })
+            }).finally(() => {
+                setIsOpen(false)
+            })
         }}>
             <Space direction={"vertical"}>
                 <Typography.Text>
@@ -181,9 +181,13 @@ export function TaskSubmissionCard({submissionId}: {
                 alignItems: "center",
             }} description={<b>Работа еще не оценена!</b>} icon={<CloseCircleFilled/>} showIcon={true} type="error"
                               action={[
-                                  <Button onClick={() => {
-                                      setIsOpen(true)
-                                  }}>Оценить</Button>
+                                  (() => {
+                                      if (auth.user?.is_staff) {
+                                          return <Button onClick={() => {
+                                              setIsOpen(true)
+                                          }}>Оценить</Button>
+                                      }
+                                  })()
                               ]}/>
         }
 
