@@ -1,9 +1,10 @@
+from django.utils import timezone
+from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.education.actions.semester import current_semester
-from apps.education.actions.students import get_student
 from apps.education.models import PointsEntrance, TaskAssignment, TaskSubmission, Student
 from apps.education.serializers import BarsStateSerializer
 from apps.persons.serializers import ServiceUserSerializer
@@ -41,4 +42,53 @@ class PointsView(APIView):
                 "total": total,
                 "points": data
             }
+        })
+
+class SetPointsView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        user = request.user
+        if not user.is_staff:
+            return Response({
+                "status": "error",
+                "message": "Only staff can set points"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        points = request.data.get("points", None)
+        if points is None:
+            return Response({
+                "status": "error",
+                "message": "No points provided"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        submission_id = request.data.get("submission_id", None)
+        if submission_id is None:
+            return Response({
+                "status": "error",
+                "message": "No submission id provided"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        submission = TaskSubmission.objects.filter(id=submission_id).first()
+        if submission is None:
+            return Response({
+                "status": "error",
+                "message": "Submission not found"
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        comment = request.data.get("comment", None)
+
+        entry = PointsEntrance(
+            author=user,
+            date=timezone.now(),
+            amount=points,
+            task_submission=submission,
+            comment=comment,
+            student=submission.student,
+            bars_state=submission.assignment.bars_state
+        )
+        entry.save()
+
+        return Response({
+            "status": "success"
         })

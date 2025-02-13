@@ -1,12 +1,20 @@
 import Sider from "./Sider.tsx";
 import {Avatar, Button, Dropdown, Layout, Menu, Space, Tag, theme, Typography} from "antd";
-import {BellFilled, MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined, UserOutlined} from "@ant-design/icons";
-import React from "react";
+import {
+    BellFilled, CalendarOutlined, FileTextOutlined,
+    HomeOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    MoreOutlined, SettingFilled,
+    UserOutlined
+} from "@ant-design/icons";
+import React, {useEffect, useState} from "react";
 import {ChangeThemeButton} from "./ChangeThemeButton.tsx";
 import {useSelector} from "react-redux";
 import {selectEducationData} from "../redux/slices/EducationSlice.ts";
 import {selectAuth} from "../redux/slices/AuthSlice.ts";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function LayoutComponent({
                                             children,
@@ -14,6 +22,45 @@ export default function LayoutComponent({
     children: React.ReactNode;
 }) {
     const [collapsed, setCollapsed] = React.useState(false);
+    const [menuEntries, setMenuEntries] = useState([
+        {
+            key: '/',
+            icon: <HomeOutlined/>,
+            label: 'Главная',
+        },
+        {
+            key: '/schedule',
+            icon: <CalendarOutlined/>,
+            label: 'Расписание',
+        },
+        {
+            key: '/assignments',
+            icon: <FileTextOutlined/>,
+            label: 'Задания'
+        },
+        // {
+        //     key: '/points',
+        //     icon: <StarOutlined/>,
+        //     label: 'Баллы',
+        // }
+    ]);
+
+    const user = useSelector(selectAuth).user
+
+    useEffect(() => {
+        if (user?.is_staff) {
+            setMenuEntries((_menuEntries) => {
+                return [..._menuEntries, {
+                    key: "/staff",
+                    icon: <SettingFilled/>,
+                    label: "Настройки"
+                }];
+            })
+        }
+    }, [user]);
+
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const {
         token: {colorBgContainer, borderRadiusLG},
@@ -29,21 +76,41 @@ export default function LayoutComponent({
             <Layout.Header
                 style={{
                     padding: 0,
-                    // backgroundColor: colorBgContainer,
+                    backgroundColor: colorBgContainer,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
+                    position: "sticky",
+                    top: 0,
+                    zIndex: 1,
                 }}
             >
-                <Typography.Title level={screen.xs ? 5 : 2} style={{
-                    margin: 50,
-                    textAlign: "center",
-                    color: "white"
+                <div style={{
+                    display: "flex",
+                    alignItems: 'center',
+                    justifyContent: "start",
+                    width: "100%"
                 }}>
-                    {
-                        screen.xs ? "PDB" : "PIN.DB"
-                    }
-                </Typography.Title>
+
+                    <Typography.Title level={screen.xs ? 5 : 2} style={{
+                        margin: 50,
+                        textAlign: "center",
+                    }}>
+                        {
+                            screen.xs ? "PDB" : "PIN.DB"
+                        }
+                    </Typography.Title>
+                    <Menu
+                        mode="horizontal"
+                        defaultSelectedKeys={[location.pathname]}
+                        onClick={(e) => {
+                            navigate(`${e.key}`)
+                        }}
+                        items={menuEntries}
+                        style={{height: '100%', borderBottom: 0,
+                        width: "60%"}}
+                    />
+                </div>
                 {/*<Button*/}
                 {/*    type="text"*/}
                 {/*    icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}*/}
@@ -91,14 +158,13 @@ export default function LayoutComponent({
                             fontSize: "16px",
                             width: 64,
                             height: 64,
-                            color: "white"
+                            // color: "white"
                         }}
                     />
                 </Space>}
 
             </Layout.Header>
             <Layout>
-                <Sider collapsed={collapsed} setCollapsed={setCollapsed}/>
                 <Layout style={{padding: '0 24px 24px'}}>
                     <Layout.Content
                         style={{

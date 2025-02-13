@@ -40,11 +40,12 @@ export default function Sider({collapsed, setCollapsed}: {
             icon: <FileTextOutlined/>,
             label: 'Задания'
         },
-        {
-            key: '/points',
-            icon: <StarOutlined/>,
-            label: 'Баллы',
-        }]);
+        // {
+        //     key: '/points',
+        //     icon: <StarOutlined/>,
+        //     label: 'Баллы',
+        // }
+    ]);
 
     const user = useSelector(selectAuth).user
 
@@ -60,16 +61,16 @@ export default function Sider({collapsed, setCollapsed}: {
         }
     }, [user]);
 
-    return <Layout.Sider collapsed={screens.xs}>
-        <Menu
-            mode="inline"
-            defaultSelectedKeys={[location.pathname]}
-            onClick={(e) => {
-                navigate(`${e.key}`)
-            }}
-            items={menuEntries}
-            style={{height: '100%', borderRight: 0}}
-            theme={"dark"}
-        />
+    return <Layout.Sider collapsed={screens.xs} style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'sticky',
+        insetInlineStart: 0,
+        top: 64,
+        bottom: 0,
+        scrollbarWidth: 'thin',
+        scrollbarGutter: 'stable',
+    }}>
+
     </Layout.Sider>
 }
