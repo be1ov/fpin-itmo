@@ -79,7 +79,7 @@ export function TaskSubmissionCard({submissionId}: {
             onCancel={() => {
                 setIsOpen(false)
             }} onOk={() => {
-                axiosInstance.post("/v1/set_points", {
+                axiosInstance.post("/v1/set_points/", {
                     submission: submissionId,
                     comment: comment,
                     points: pointsAmount
