@@ -91,6 +91,8 @@ export function TaskSubmissionCard({submissionId}: {
                     notificationApi.error({
                         message: "При сохранении оценки произошла ошибка"
                     })
+                }).finally(() => {
+                    setIsOpen(false)
                 })
         }}>
             <Space direction={"vertical"}>
