@@ -37,7 +37,7 @@ class SignUpView(APIView):
         password = request.data.get('password', None)
         isu = request.data.get('isu', None)
 
-        if not all((first_name, last_name, patronymic, email, password, isu)):
+        if not all([first_name, last_name, patronymic, email, password, isu]):
             return Response({
                 "status": "error",
                 "message": "All fields are required"
