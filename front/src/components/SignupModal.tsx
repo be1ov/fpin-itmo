@@ -13,16 +13,14 @@ export function SignupModal({isOpened, setIsOpened}: {isOpened: boolean, setIsOp
     const repeatPasswordRef = useRef();
 
     return <Modal open={isOpened} onCancel={() => setIsOpened(false)} cancelText={"Закрыть"} okText={"Зарегистрироваться"} title={"Регистрация"} onOk={() => {
-        onOk={() => {
-            signup({
-                lastName: lastNameRef.current?.input.value,
-                firstName: firstNameRef.current?.input.value,
-                patronymic: patronymicRef.current?.input.value,
-                email: emailRef.current?.input.value,
-                isu: isuRef.current?.input.value,
-                password: passwordRef.current?.input.value
-            })
-        }}
+        signup({
+            lastName: lastNameRef.current?.input.value,
+            firstName: firstNameRef.current?.input.value,
+            patronymic: patronymicRef.current?.input.value,
+            email: emailRef.current?.input.value,
+            isu: isuRef.current?.input.value,
+            password: passwordRef.current?.input.value
+        })
     }}>
         <Form
             onSubmitCapture={(e) => {
