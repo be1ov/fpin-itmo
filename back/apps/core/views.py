@@ -30,8 +30,8 @@ class FileUploadView(APIView):
 @permission_classes([])
 class SignUpView(APIView):
     def post(self, request):
-        first_name = request.data.get('first_name', None)
-        last_name = request.data.get('last_name', None)
+        first_name = request.data.get('firstName', None)
+        last_name = request.data.get('lastName', None)
         patronymic = request.data.get('patronymic', None)
         email = request.data.get('email', None)
         password = request.data.get('password', None)
