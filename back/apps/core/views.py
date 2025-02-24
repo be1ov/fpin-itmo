@@ -1,6 +1,7 @@
 import rest_framework_simplejwt.tokens
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -25,6 +26,8 @@ class FileUploadView(APIView):
         })
 
 
+@authentication_classes([])
+@permission_classes([])
 class SignUpView(APIView):
     def post(self, request):
         first_name = request.data.get('first_name', None)
@@ -41,6 +44,7 @@ class SignUpView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         user = ServiceUser()
+        user.username = isu
         user.first_name = first_name
         user.last_name = last_name
         user.patronymic = patronymic
