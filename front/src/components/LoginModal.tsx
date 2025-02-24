@@ -30,7 +30,7 @@ export function LoginModal({
         >
             <Form
                 onSubmitCapture={(e) => {
-                    e.preventDefault(); // just to prevent page reload omg so much sense
+                    e.preventDefault(); // just to prevent page reload omg it makes so much sense
                 }}
             >
                 <Form.Item style={{ marginBottom: 10, marginTop: 20 }}>
