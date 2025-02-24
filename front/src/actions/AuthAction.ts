@@ -21,6 +21,30 @@ export const login = (username: string, password: string) => {
         });
 };
 
+export const signup = (data: {
+    firstName: string,
+    lastName: string,
+    patronymic: string,
+    email: string,
+    password: string,
+    isu: string
+}) => {
+    return axiosInstance.post("/auth/signup", data).then(res => {
+        store.dispatch(
+            authSlice.actions.loginSuccess({
+                access_token: res.data.data.access,
+                refresh_token: res.data.data.refresh,
+            })
+        );
+        return fetchCurrentUser();
+    })
+    .catch((error) => {
+        console.error("Signup failed:", error);
+        store.dispatch(authSlice.actions.setUserIdle());
+        return Promise.reject("Signup failed");
+    });
+}
+
 export const fetchCurrentUser = () => {
     const access_token = store.getState().auth.access_token;
     if (!access_token) {

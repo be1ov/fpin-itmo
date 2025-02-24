@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt import views as jwt_views
 
 from apps.attendance.views import UploadAttendanceView
-from apps.core.views import FileUploadView
+from apps.core.views import FileUploadView, SignUpView
 from apps.education.views import SemesterViewSet, EducationViewSet, AvailableFlowsView, SaveUserFlowsRequestView, \
     AddSubmissionStatusView
 from apps.education.views.bars import BarsStatesView
@@ -60,5 +60,6 @@ urlpatterns = [
     path('api/auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api/auth/me/', CurrentUserView.as_view(), name='current_user'),
+    path('api/auth/signup', SignUpView.as_view())
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
