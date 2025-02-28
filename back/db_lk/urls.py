@@ -61,6 +61,5 @@ urlpatterns = [
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api/auth/me/', CurrentUserView.as_view(), name='current_user'),
     path('api/auth/signup', SignUpView.as_view()),
-    path('explorer/', include('explorer.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
