@@ -55,7 +55,7 @@ api_urls = [
 ]
 
 urlpatterns = [
-    path('admin/sql_explorer/', include('explorer.urls')),
+    path('sql_explorer/', include('explorer.urls')),
     path('admin/', admin.site.urls),
     path('api/v1/', include(api_urls)),
     path('api/auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
