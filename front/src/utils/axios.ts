@@ -3,7 +3,7 @@ import { store } from "../redux/store.ts";
 import { authSlice } from "../redux/slices/AuthSlice.ts";
 
 const axiosInstance = axios.create({
-    baseURL: "https://fpin-itmo.ru/api",
+    baseURL: `${window.location.hostname == 'localhost' ? 'http://localhost:1727' : "https://fpin-itmo.ru"}/api`
 });
 
 axiosInstance.interceptors.request.use(

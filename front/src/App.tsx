@@ -18,6 +18,7 @@ import {TasksPage} from "./pages/staff/TasksPage.tsx";
 import {TaskPage} from "./pages/staff/TaskPage.tsx";
 import {SubmissionPage} from "./pages/staff/SubmissionPage.tsx";
 import PointsPage from "./pages/PointsPage.tsx";
+import TestsPage from "./pages/TestsPage.tsx";
 
 function App() {
     const auth = useSelector(selectAuth);
@@ -116,6 +117,12 @@ function App() {
                         path="/staff/:section?"
                         element={
                             <ProtectedRoute children={<StaffPage/>}/>
+                        }
+                    />
+                    <Route
+                        path="/tests"
+                        element={
+                            <ProtectedRoute children={<TestsPage/>}/>
                         }
                     />
                     <Route path="/auth" element={<AuthPage/>}/>

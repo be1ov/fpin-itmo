@@ -5,7 +5,7 @@ import {
     HomeOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    MoreOutlined, SettingFilled,
+    MoreOutlined, SettingFilled, SignatureOutlined,
     UserOutlined
 } from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
@@ -37,6 +37,11 @@ export default function LayoutComponent({
             key: '/assignments',
             icon: <FileTextOutlined/>,
             label: 'Задания'
+        },
+        {
+            key: '/tests',
+            icon: <SignatureOutlined/>,
+            label: 'Тесты'
         },
         // {
         //     key: '/points',
