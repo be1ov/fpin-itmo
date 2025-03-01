@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-8&3hex#26676-@1udrqv@gt9a%)w7n+#12@52s8g16&4*2sioy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "fpin-itmo.ru"]
-CSRF_TRUSTED_ORIGINS = ["https://fpin-itmo.ru"]
+ALLOWED_HOSTS = ["localhost", "fpin-itmo.ru", "localhost:1727"]
+CSRF_TRUSTED_ORIGINS = ["https://fpin-itmo.ru", "http://localhost:1727"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.attendance',
     'apps.tasks',
     'apps.core',
+    'apps.tests',
     'rest_framework_simplejwt.token_blacklist',
     'explorer',
 ]
