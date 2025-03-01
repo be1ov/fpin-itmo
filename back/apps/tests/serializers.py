@@ -6,7 +6,7 @@ from apps.tests.models import Test, TestAssignment
 class TestSerializer(serializers.Serializer):
     class Meta:
         model = Test
-        fields = '__all__'
+        fields = ['id', 'title', 'testpad_link']
 
 class TestAssignmentSerializer(serializers.Serializer):
     test = TestSerializer(read_only=True)

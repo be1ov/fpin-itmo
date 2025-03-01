@@ -3,18 +3,10 @@ from apps.persons.models import ServiceUser
 from django.contrib.auth.admin import UserAdmin
 
 
-# @admin.register(ServiceUser)
-# class ServiceUserAdmin(admin.ModelAdmin):
-#
-#
-
-#
-
-
 class UserAgentAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets
     ADDITIONAL_USER_FIELDS = (
-        (None, {'fields': ('isu', 'patronymic')}),
+        (None, {'fields': ('isu', 'patronymic', 'is_approved')}),
     )
     fieldsets = fieldsets + ADDITIONAL_USER_FIELDS
 

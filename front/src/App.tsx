@@ -27,6 +27,51 @@ function App() {
     const [, contextHolder] = notification.useNotification();
 
     useEffect(() => {
+console.log(`%c
+            .--'''''''''--.
+         .'      .---.      '.' 
+        /    .-----------.    \\
+       /        .-----.        \\
+       |       .-.   .-.       |
+       |      /   \\/    \\      |
+        \\    | .-. | .-. |    /
+         '-._| | | | | | |_.-' 
+             | '-' | '-' | 
+              \\___/ \\___/ 
+           _.-'  /   \\  \`-._ 
+         .' _.--|     |--._ '. 
+         ' _...-|     |-..._ ' 
+                |     | 
+                '.___.'
+                  | |
+                 _| |_ 
+                /\\( )/\\ 
+               /  \` '  \\ 
+              | |     | | 
+              '-'     '-' 
+              | |     | | 
+              | |     | | 
+              | |-----| | 
+           .\`/  |     | |/\`. 
+           |    |     |    | 
+           '._.'| .-. |'._.' 
+                 \\ | / 
+                 | | | 
+                 | | | 
+                 | | | 
+                /| | |\\ 
+              .'_| | |_.'.
+              \`. | | | .' 
+           .    /  |  \\    . 
+          /o\`.-'  / \\  \`-.\`o\\ 
+         /o  o\\ .'   \`. /o  o\\ 
+         \`.___.'       \`.___.'
+
+               SPONGEBOB.
+     PUT YOUR DEVTOOLS AWAY, SPONGEBOB.    
+WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW, 
+               SPONGEBOB.  
+`, "font-family:monospace");
         fetchCurrentUser();
     }, []);
 

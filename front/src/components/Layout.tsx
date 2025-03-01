@@ -1,11 +1,7 @@
-import Sider from "./Sider.tsx";
-import {Avatar, Button, Dropdown, Layout, Menu, Space, Tag, theme, Typography} from "antd";
+import {Dropdown, Layout, Menu, Space, Tag, theme, Typography} from "antd";
 import {
-    BellFilled, CalendarOutlined, FileTextOutlined,
-    HomeOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    MoreOutlined, SettingFilled, SignatureOutlined,
+    CalendarOutlined, FileTextOutlined,
+    HomeOutlined, SettingFilled, SignatureOutlined,
     UserOutlined
 } from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
@@ -21,48 +17,9 @@ export default function LayoutComponent({
                                         }: {
     children: React.ReactNode;
 }) {
-    const [collapsed, setCollapsed] = React.useState(false);
-    const [menuEntries, setMenuEntries] = useState([
-        {
-            key: '/',
-            icon: <HomeOutlined/>,
-            label: 'Главная',
-        },
-        {
-            key: '/schedule',
-            icon: <CalendarOutlined/>,
-            label: 'Расписание',
-        },
-        {
-            key: '/assignments',
-            icon: <FileTextOutlined/>,
-            label: 'Задания'
-        },
-        {
-            key: '/tests',
-            icon: <SignatureOutlined/>,
-            label: 'Тесты'
-        },
-        // {
-        //     key: '/points',
-        //     icon: <StarOutlined/>,
-        //     label: 'Баллы',
-        // }
-    ]);
 
     const user = useSelector(selectAuth).user
 
-    useEffect(() => {
-        if (user?.is_staff) {
-            setMenuEntries((_menuEntries) => {
-                return [..._menuEntries, {
-                    key: "/staff",
-                    icon: <SettingFilled/>,
-                    label: "Настройки"
-                }];
-            })
-        }
-    }, [user]);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -75,6 +32,39 @@ export default function LayoutComponent({
     const auth = useSelector(selectAuth);
 
     const screen = useBreakpoint();
+
+    const menuEntries = [
+        {
+            key: '/',
+            icon: <HomeOutlined/>,
+            label: 'Главная',
+            show: true
+        },
+        {
+            key: '/schedule',
+            icon: <CalendarOutlined/>,
+            label: 'Расписание',
+            show: (user?.is_approved && educationData?.flows.length > 0) || user?.is_staff
+        },
+        {
+            key: '/assignments',
+            icon: <FileTextOutlined/>,
+            label: 'Задания',
+            show: (user?.is_approved && educationData?.flows.length > 0) || user?.is_staff
+        },
+        {
+            key: '/tests',
+            icon: <SignatureOutlined/>,
+            label: 'Тесты',
+            show: (user?.is_approved && educationData?.flows.length > 0) || user?.is_staff
+        },
+        {
+            key: "/staff",
+            icon: <SettingFilled/>,
+            label: "Настройки",
+            show: user?.is_staff
+        }
+    ];
 
     return (
         <Layout style={{minHeight: "100vh"}}>
@@ -111,21 +101,15 @@ export default function LayoutComponent({
                         onClick={(e) => {
                             navigate(`${e.key}`)
                         }}
-                        items={menuEntries}
-                        style={{height: '100%', borderBottom: 0,
-                        width: "60%"}}
+                        items={menuEntries
+                            .filter(obj => obj?.show === true || obj.show === undefined)
+                            .map(({show, ...rest}) => rest)}
+                        style={{
+                            height: '100%', borderBottom: 0,
+                            width: "60%"
+                        }}
                     />
                 </div>
-                {/*<Button*/}
-                {/*    type="text"*/}
-                {/*    icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}*/}
-                {/*    onClick={() => setCollapsed(!collapsed)}*/}
-                {/*    style={{*/}
-                {/*        fontSize: "16px",*/}
-                {/*        width: 64,*/}
-                {/*        height: 64,*/}
-                {/*    }}*/}
-                {/*/>*/}
 
                 {screen.lg && <Space style={{color: "white", maxWidth: "50%"}} align={"center"}>
                     <div style={{minHeight: "100%", display: "flex", alignItems: "center"}}>
@@ -133,7 +117,7 @@ export default function LayoutComponent({
                             <Tag color={"cyan"}>{educationData.semester.title}</Tag>
                         )}
                         {educationData.flows.map((flow) => {
-                            return <Tag color={"red"}>{flow.title}</Tag>;
+                            return <Tag color={"red"} key={flow.id}>{flow.title}</Tag>;
                         })}
                     </div>
 

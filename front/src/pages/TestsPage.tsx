@@ -1,12 +1,14 @@
 import LayoutComponent from "../components/Layout.tsx";
-import {Divider, Space, Spin, Typography} from "antd";
+import {Divider, Empty, notification, Space, Spin, Typography} from "antd";
 import React, {useEffect} from "react";
 import Typing from 'react-typing-effect';
 import TypingEffect from "../components/TypingEffect.tsx";
+import axiosInstance from "../utils/axios.ts";
 
 export default function TestsPage() {
     const [tests, setTests] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [showStatus, setShowStatus] = React.useState(false)
 
     const statuses = [
         "Придумываем задания...",
@@ -31,28 +33,50 @@ export default function TestsPage() {
         "Ждём, когда вы запаникуете...",
     ];
 
+    const [notificationApi, contextHolder] = notification.useNotification();
 
-    const [loadingText, setLoadingText] = React.useState(statuses[Math.floor(Math.random() * statuses.length)])
     useEffect(() => {
-        setInterval(() => {
-            setLoadingText(statuses[Math.floor(Math.random() * statuses.length)])
-        }, 2100)
-
+        setShowStatus(true)
         setIsLoading(true)
+        const fetchData = () => {
+            axiosInstance.get("/v1/tests").then(res => {
+                setTests(res.data.data.tests)
+                setIsLoading(false)
+            }).catch((err) => {
+                if (err?.response?.data?.message == "No flows found") {
+                    notificationApi.warning({
+                        message: "Вы не в потоке, тестов для вас пока что нет :(",
+                        closable: true,
+                        duration: -1,
+                        placement: "top"
+                    })
+                } else {
+                    notificationApi.warning({
+                        message: "Что-то произошло, но пока что не понимаем, что... Думаем!",
+                        closable: true,
+                        duration: -1,
+                        placement: "bottom"
+                    })
+                }
+            })
+        }
+        fetchData()
     }, []);
 
 
     return <LayoutComponent>
+        {contextHolder}
         <Space direction={"vertical"} style={{
             width: "100%",
         }}>
             <Typography.Title level={2}>Тесты</Typography.Title>
-            <Typography.Text>В этом разделе представлены тесты, которые вам предстоит пройти... и уже пройденные и зачтенные...
+            <Typography.Text>В этом разделе представлены тесты, которые вам предстоит пройти... и уже пройденные и
+                зачтенные...
                 и незачтенные тоже.
                 <br/>Короче, все тесты. Здесь живут тесты.</Typography.Text>
             <Divider/>
             {
-                isLoading && <div style={{
+                (isLoading || showStatus) && <div style={{
                     width: "100%",
                     display: "flex",
                     justifyContent: "center",
@@ -60,14 +84,12 @@ export default function TestsPage() {
                     textAlign: "center"
                 }}>
                     <Space direction={"vertical"}>
-                        <Spin/>
-                        {/*<Typing speed={20} eraseSpeed={loadingText.length} eraseDelay={1000}*/}
-                        {/*        typingDelay={1000} text={loadingText}/>*/}
-
-                        <TypingEffect texts={statuses} typingSpeed={20} erasingSpeed={20} delayBeforeErase={1500} />
-
+                        {isLoading && <>
+                            <Spin/>
+                        </>}
+                        {tests.length == 0 && <Empty description={"Тестов пока что нет..."}/>}
+                        {showStatus && <TypingEffect texts={statuses} typingSpeed={20} erasingSpeed={20} delayBeforeErase={1500}/>}
                     </Space>
-
                 </div>
             }
         </Space>
