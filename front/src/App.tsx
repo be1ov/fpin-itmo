@@ -19,6 +19,7 @@ import {TaskPage} from "./pages/staff/TaskPage.tsx";
 import {SubmissionPage} from "./pages/staff/SubmissionPage.tsx";
 import PointsPage from "./pages/PointsPage.tsx";
 import TestsPage from "./pages/TestsPage.tsx";
+import {TestPage} from "./pages/TestPage.tsx";
 
 function App() {
     const auth = useSelector(selectAuth);
@@ -27,7 +28,7 @@ function App() {
     const [, contextHolder] = notification.useNotification();
 
     useEffect(() => {
-console.log(`%c
+        console.log(`%c
             .--'''''''''--.
          .'      .---.      '.' 
         /    .-----------.    \\
@@ -168,6 +169,12 @@ WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW,
                         path="/tests"
                         element={
                             <ProtectedRoute children={<TestsPage/>}/>
+                        }
+                    />
+                    <Route
+                        path="/test-assignment/:id"
+                        element={
+                            <ProtectedRoute children={<TestPage/>}/>
                         }
                     />
                     <Route path="/auth" element={<AuthPage/>}/>

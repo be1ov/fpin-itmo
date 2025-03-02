@@ -52,7 +52,7 @@ export default function TestsPage() {
                     })
                 } else {
                     notificationApi.warning({
-                        message: "Что-то произошло, но пока что не понимаем, что... Думаем!",
+                        message: "Что-то точно произошло, но пока не понимаем, что... Думаем!",
                         closable: true,
                         duration: -1,
                         placement: "bottom"

@@ -30,7 +30,8 @@ from apps.education.views.points import PointsView, SetPointsView
 from apps.education.views.submissions import SubmissionStatusAttachments
 from apps.education.views.tasks import TaskView, TaskAssignView
 from apps.persons.views import PersonViewSet, CurrentUserView, UsersViewSet
-from apps.tests.views import GetTestsAPIView
+from apps.tests.views import GetTestsAPIView, OnlineTestPadResultsAPIView, GetTestAssignmentAPIView, \
+    CreateAttemptAPIView
 from db_lk import settings
 
 router = DefaultRouter()
@@ -53,6 +54,9 @@ api_urls = [
     path("points/", PointsView.as_view()),
     path("set_points/", SetPointsView.as_view()),
     path("tests/", GetTestsAPIView.as_view()),
+    path("tests/assignment/", GetTestAssignmentAPIView.as_view()),
+    path("tests/new_attempt/", CreateAttemptAPIView.as_view()),
+    path("onlinetestpad_results/", OnlineTestPadResultsAPIView.as_view()),
     path("", include(router.urls)),
 ]
 
