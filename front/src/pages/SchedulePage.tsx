@@ -181,7 +181,7 @@ export default function SchedulePage() {
                 <Typography.Title level={2}>
                     Расписание занятий
                 </Typography.Title>
-                <Alert type={"warning"} description={"Информация о посещениях предоставляется для фактически посещенного занятия"} />}
+                <Alert type={"warning"} description={"Информация о посещениях предоставляется для фактически посещенного занятия"} />
                 <Calendar mode={"month"} cellRender={cellRender} onSelect={(date, selectInfo) => {
                     if (lessonsData.find(e => e.date == date.format("YYYY-MM-DD"))) {
                         setSelectedLessonDate(date)
