@@ -16,12 +16,12 @@ export function GithubLinkPage () {
 
         axiosInstance.post("/v1/github/link/", {
             code
-        }).then(() => {
+        }).then((res) => {
             window.location.href = "/?status=gh_success"
-        }).catch(() => {
+        }).catch((res) => {
             window.location.href = "/?status=gh_error"
         })
-    }, []);
+    }, [code]);
 
     return <>{code}</>
 }
