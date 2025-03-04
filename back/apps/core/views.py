@@ -80,6 +80,7 @@ class GithubLinkAPIView(APIView):
         try:
             access_token = get_access_token(code)
         except Exception as e:
+            print(e)
             return Response({
                 "status": "error",
                 "message": "Internal server error: access"
