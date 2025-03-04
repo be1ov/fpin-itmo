@@ -11,7 +11,7 @@ export function GithubLinkPage () {
         const code = query.get('code');
 
         console.log(code)
-        
+
         if (!code) {
             navigate("/?status=gh_error");
             return;
@@ -26,7 +26,7 @@ export function GithubLinkPage () {
             console.log(err);
             navigate("/?status=gh_error");
         });
-    }, [search, navigate]);
+    }, [search]);
 
     return <>Processing...</>;
 }
