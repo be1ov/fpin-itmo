@@ -1,16 +1,18 @@
-import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import axiosInstance from "../../utils/axios.ts";
 
-export function GithubLinkPage () {
+export function GithubLinkPage() {
     const { search } = useLocation();
     const navigate = useNavigate();
+    const hasRun = useRef(false);
 
     useEffect(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+
         const query = new URLSearchParams(search);
         const code = query.get('code');
-
-        console.log(code)
 
         if (!code) {
             navigate("/?status=gh_error");
@@ -26,7 +28,7 @@ export function GithubLinkPage () {
             console.log(err);
             navigate("/?status=gh_error");
         });
-    }, [search]);
+    }, [search, navigate]);
 
     return <>Processing...</>;
 }
