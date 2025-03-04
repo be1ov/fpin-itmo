@@ -176,7 +176,7 @@ WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW,
                             <ProtectedRoute children={<TestPage/>}/>
                         }
                     />
-                    <Route path="/github/link" element={<GithubLinkPage key="github-link" />} />
+                    <Route path="/github/link" element={<GithubLinkPage />} />
                     <Route path="/auth/github" element={<GithubAuthPage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
                 </Routes>
