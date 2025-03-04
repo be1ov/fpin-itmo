@@ -82,7 +82,7 @@ class GithubLinkAPIView(APIView):
         except Exception as e:
             return Response({
                 "status": "error",
-                "message": "Internal server error"
+                "message": "Internal server error: access"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         user_data = get_user_data(access_token)
@@ -90,14 +90,14 @@ class GithubLinkAPIView(APIView):
         if gh_id is None:
             return Response({
                 "status": "error",
-                "message": "Internal server error"
+                "message": "Internal server error: gh_id"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         username = user_data.get('login', None)
         if username is None:
             return Response({
                 "status": "error",
-                "message": "Internal server error"
+                "message": "Internal server error: username"
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         user.github = gh_id
