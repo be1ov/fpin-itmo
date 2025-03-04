@@ -131,7 +131,14 @@ function App() {
                             <ProtectedRoute children={<TestPage/>}/>
                         }
                     />
-                    <Route path="/github/link" element={<GithubLinkPage />} />
+                    <Route
+                        path="/test-assignment/:id"
+                        element={
+                            <ProtectedRoute children={<TestPage/>}/>
+                        }
+                    />
+                    <Route
+                        path="/github/link" element={<ProtectedRoute children={<GithubLinkPage/>}/>}/>
                     <Route path="/auth/github" element={<GithubAuthPage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
                 </Routes>
