@@ -9,7 +9,7 @@ class ServiceUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceUser
-        fields = ["full_name", "last_name", "first_name", "patronymic", "isu", "is_approved", "is_staff", "short_name"]
+        fields = ["full_name", "last_name", "first_name", "patronymic", "isu", "is_approved", "is_staff", "short_name", "github"]
 
     def get_is_staff(self, obj):
         return obj.is_staff

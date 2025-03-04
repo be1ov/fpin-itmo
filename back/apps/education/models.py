@@ -12,6 +12,7 @@ class Semester(models.Model):
     from_date = models.DateField()
     to_date = models.DateField()
     base_repo_url = models.URLField(blank=True, null=True)
+    chat_url = models.URLField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Семестр"
@@ -110,7 +111,7 @@ class TaskSubmission(models.Model):
     assignment = models.ForeignKey(TaskAssignment, on_delete=models.PROTECT)
     coordinator = models.ForeignKey(ServiceUser, on_delete=models.PROTECT, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=datetime.now)
 
     class Meta:
         verbose_name = "Сдача задания"
@@ -124,7 +125,7 @@ class TaskSubmissionStatus(models.Model):
     submission = models.ForeignKey(TaskSubmission, on_delete=models.PROTECT)
     author = models.ForeignKey(ServiceUser, on_delete=models.PROTECT)
     text = models.CharField(max_length=1000)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(default=datetime.now)
 
     class SubmissionStatuses(models.TextChoices):
         WORKING = 'WORKING', _('В работе')

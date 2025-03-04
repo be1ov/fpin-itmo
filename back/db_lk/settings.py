@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.tests',
     'rest_framework_simplejwt.token_blacklist',
     'explorer',
+    'apps.projects'
 ]
 
 MIDDLEWARE = [
