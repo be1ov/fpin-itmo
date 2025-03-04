@@ -27,29 +27,29 @@ export default function HomePage() {
 
     const { search } = useLocation();
 
-    const query = new URLSearchParams(search);
-    const status = query.get('status');
+    // const query = new URLSearchParams(search);
+    // const status = query.get('status');
 
     const [notificatonApi, contextHolder] = notification.useNotification();
 
-    useEffect(() => {
-        if (!status) {
-            return;
-        }
-
-        switch (status) {
-            case "gh_success":
-                notificatonApi.success({
-                    message: "Ура! Github успешно привязан, теперь вы можете авторизовываться через него."
-                })
-                break;
-            case "gh_error":
-                notificatonApi.error({
-                    message: "Произошла ошибка во время привязки Github, повторите попытку позднее"
-                })
-                break;
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (!status) {
+    //         return;
+    //     }
+    //
+    //     switch (status) {
+    //         case "gh_success":
+    //             notificatonApi.success({
+    //                 message: "Ура! Github успешно привязан, теперь вы можете авторизовываться через него."
+    //             })
+    //             break;
+    //         case "gh_error":
+    //             notificatonApi.error({
+    //                 message: "Произошла ошибка во время привязки Github, повторите попытку позднее"
+    //             })
+    //             break;
+    //     }
+    // }, [status]);
 
     return (
         <LayoutComponent>
