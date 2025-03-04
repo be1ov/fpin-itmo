@@ -5,10 +5,11 @@ import axiosInstance from "../../utils/axios.ts";
 export function GithubLinkPage () {
     const { search } = useLocation();
 
-    const query = new URLSearchParams(search);
-    const code = query.get('code');
 
     useEffect(() => {
+        const query = new URLSearchParams(search);
+        const code = query.get('code');
+
         if (!code) {
             window.location.href = "/?status=gh_error"
             return;
@@ -21,7 +22,7 @@ export function GithubLinkPage () {
         }).catch((res) => {
             window.location.href = "/?status=gh_error"
         })
-    }, [code]);
+    }, []);
 
-    return <>{code}</>
+    return <>Processing...</>
 }
