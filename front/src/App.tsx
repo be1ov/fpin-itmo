@@ -3,7 +3,7 @@ import {ConfigProvider, Layout, notification, Spin, theme} from "antd";
 import {useEffect, useMemo} from "react";
 import {useSelector} from "react-redux";
 import SchedulePage from "./pages/SchedulePage.tsx";
-import {Route, BrowserRouter, Routes} from "react-router-dom";
+import {Route, BrowserRouter, Routes, useLocation} from "react-router-dom";
 import {selectTheme} from "./redux/slices/ThemeSlice.ts";
 import {fetchCurrentUser} from "./actions/AuthAction.ts";
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
@@ -20,12 +20,13 @@ import {SubmissionPage} from "./pages/staff/SubmissionPage.tsx";
 import PointsPage from "./pages/PointsPage.tsx";
 import TestsPage from "./pages/TestsPage.tsx";
 import {TestPage} from "./pages/TestPage.tsx";
+import {GithubAuth} from "./utils/github.ts";
+import {GithubAuthPage} from "./pages/api/GithubAuthPage.tsx";
+import {GithubLinkPage} from "./pages/api/GithubLinkPage.tsx";
 
 function App() {
     const auth = useSelector(selectAuth);
     const enabledTheme = useSelector(selectTheme).mode;
-
-    const [, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         console.log(`%c
@@ -116,7 +117,6 @@ WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW,
 
     return (
         <ConfigProvider theme={themeConfig}>
-            {contextHolder}
             <BrowserRouter>
                 <Routes>
                     <Route
@@ -177,6 +177,8 @@ WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW,
                             <ProtectedRoute children={<TestPage/>}/>
                         }
                     />
+                    <Route path="/github/link" element={<GithubLinkPage/>}/>
+                    <Route path="/auth/github" element={<GithubAuthPage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
                 </Routes>
             </BrowserRouter>

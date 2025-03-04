@@ -1,11 +1,14 @@
-import {Button, Card, Col, Divider, Empty, List, Row, Space, Tag, Typography} from "antd";
+import {Button, Card, Col, Divider, Empty, List, Row, Space, Tag, Typography, Alert, notification} from "antd";
 import LayoutComponent from "../components/Layout.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {selectEducationData} from "../redux/slices/EducationSlice.ts";
 import NoFlowsAlert from "../components/flows/NoFlowsAlert.tsx";
 import {PointsWidget} from "../components/PointsWidget.tsx";
 import {selectAuth} from "../redux/slices/AuthSlice.ts";
+import {GithubOutlined} from "@ant-design/icons";
+import {GithubLink} from "../utils/github.ts";
+import {useLocation} from "react-router-dom";
 
 interface Announcement {
     id: number;
@@ -22,8 +25,35 @@ export default function HomePage() {
 
     const educationSelector = useSelector(selectEducationData)
 
+    const { search } = useLocation();
+
+    const query = new URLSearchParams(search);
+    const status = query.get('status');
+
+    const [notificatonApi, contextHolder] = notification.useNotification();
+
+    useEffect(() => {
+        if (!status) {
+            return;
+        }
+
+        switch (status) {
+            case "gh_success":
+                notificatonApi.success({
+                    message: "Ура! Github успешно привязан, теперь вы можете авторизовываться через него."
+                })
+                break;
+            case "gh_error":
+                notificatonApi.error({
+                    message: "Произошла ошибка во время привязки Github, повторите попытку позднее"
+                })
+                break;
+        }
+    }, [status]);
+
     return (
         <LayoutComponent>
+            {contextHolder}
             <Space direction={"vertical"} style={{
                 width: "100%",
             }}>
@@ -31,6 +61,16 @@ export default function HomePage() {
 
                 {
                     educationSelector.flows.length == 0 && <NoFlowsAlert/>
+                }
+
+                {
+                    !auth.user?.github && <Alert
+                        icon={<GithubOutlined style={{}}/>} showIcon message={"Привяжем GitHub?"}
+                        description={"Так мы сможем автоматически отслеживать состояние пулл-реквестов, " +
+                            "а вы – авторизовываться в PIN.DB через GitHub!"}
+                        action={<Button type={"primary"} onClick={() => {
+                            GithubLink()
+                        }}>Привязать GitHub</Button>}/>
                 }
 
                 <Row gutter={[16, 16]}>

@@ -1,3 +1,5 @@
+from os import access
+
 import rest_framework_simplejwt.tokens
 from django.shortcuts import render
 from rest_framework import status
@@ -6,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.core.actions.github import get_access_token, get_user_data
 from apps.core.serializers import FileSerializer
 from apps.persons.models import ServiceUser
 
@@ -53,6 +56,93 @@ class SignUpView(APIView):
         user.set_password(password)
 
         user.save()
+        refresh = rest_framework_simplejwt.tokens.RefreshToken.for_user(user)
+        return Response({
+            "status": "success",
+            "data": {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token)
+            }
+        })
+
+class GithubLinkAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        user = request.user
+
+        code = request.data.get('code', None)
+        if code is None:
+            return Response({
+                "status": "error",
+                "message": "Code field excepting `code` are required"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            access_token = get_access_token(code)
+        except Exception as e:
+            return Response({
+                "status": "error",
+                "message": "Internal server error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        user_data = get_user_data(access_token)
+        gh_id = user_data.get('id', None)
+        if gh_id is None:
+            return Response({
+                "status": "error",
+                "message": "Internal server error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        username = user_data.get('login', None)
+        if username is None:
+            return Response({
+                "status": "error",
+                "message": "Internal server error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        user.github = gh_id
+        user.github_username = username
+        user.save()
+
+        return Response({
+            "status": "success",
+        })
+
+@authentication_classes([])
+@permission_classes([])
+class GithubAuthAPIView(APIView):
+    def post(self, request):
+        code = request.data.get('code', None)
+        if code is None:
+            return Response({
+                "status": "error",
+                "message": "Code field excepting `code` are required"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            access_token = get_access_token(code)
+        except Exception as e:
+            return Response({
+                "status": "error",
+                "message": "Internal server error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        user_data = get_user_data(access_token)
+        github_id = user_data.get('id', None)
+        if github_id is None:
+            return Response({
+                "status": "error",
+                "message": "Internal server error"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            user = ServiceUser.objects.get(github=github_id)
+        except ServiceUser.DoesNotExist:
+            return Response({
+                "status": "error",
+                "message": "User does not exist"
+            }, status=status.HTTP_404_NOT_FOUND)
+
         refresh = rest_framework_simplejwt.tokens.RefreshToken.for_user(user)
         return Response({
             "status": "success",

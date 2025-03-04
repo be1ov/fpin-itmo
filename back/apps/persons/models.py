@@ -6,7 +6,8 @@ class ServiceUser(AbstractUser):
     first_name = models.CharField(max_length=30, verbose_name="Имя")
     patronymic = models.CharField(max_length=30, blank=True, null=True, verbose_name="Отчество")
     isu = models.CharField(max_length=6, verbose_name="Табельный номер (ИСУ)")
-    github = models.CharField(max_length=30, blank=True, null=True, verbose_name="Ник GitHub")
+    github = models.CharField(max_length=30, blank=True, null=True, verbose_name="Github ID")
+    github_username = models.CharField(max_length=30, blank=True, null=True, verbose_name="Github Username")
 
     is_approved = models.BooleanField(default=False, verbose_name="Утвержден")
 

@@ -6,11 +6,12 @@ import {
 } from "@ant-design/icons";
 import React, {useEffect, useState} from "react";
 import {ChangeThemeButton} from "./ChangeThemeButton.tsx";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {selectEducationData} from "../redux/slices/EducationSlice.ts";
-import {selectAuth} from "../redux/slices/AuthSlice.ts";
+import {authSlice, selectAuth} from "../redux/slices/AuthSlice.ts";
 import useBreakpoint from "antd/lib/grid/hooks/useBreakpoint";
 import {useLocation, useNavigate} from "react-router-dom";
+import {store} from "../redux/store.ts";
 
 export default function LayoutComponent({
                                             children,
@@ -19,7 +20,6 @@ export default function LayoutComponent({
 }) {
 
     const user = useSelector(selectAuth).user
-
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -128,7 +128,9 @@ export default function LayoutComponent({
                         {/*</Avatar>{" "}*/}
                         <>
                             <Dropdown.Button overlay={(<Menu>
-                                <Menu.Item>Выйти</Menu.Item>
+                                <Menu.Item onClick={() => {
+                                    store.dispatch(authSlice.actions.logout())
+                                }}>Выйти</Menu.Item>
                             </Menu>)}>
                                 <div><UserOutlined/> {auth.user?.first_name} {auth.user?.last_name}</div>
 

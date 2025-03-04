@@ -8,4 +8,5 @@ export interface User {
     isu: string;
     is_approved: boolean;
     is_staff: boolean;
+    github?: string;
 }

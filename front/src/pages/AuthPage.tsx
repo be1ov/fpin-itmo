@@ -14,12 +14,6 @@ export default function AuthPage() {
 
     const navigate = useNavigate();
 
-    function sendLogin(username: string, password: string) {
-        login(username, password).then(() => {
-            navigate("/");
-        });
-    }
-
     const {
         token: {colorBgContainer},
     } = theme.useToken();
@@ -31,7 +25,6 @@ export default function AuthPage() {
             <LoginModal
                 isOpened={isLoginOpened}
                 setIsOpened={setIsLoginOpened}
-                sendLogin={sendLogin}
             />
             <SignupModal
                 isOpened={isSignupOpened}
