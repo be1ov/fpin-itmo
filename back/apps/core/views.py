@@ -83,7 +83,7 @@ class GithubLinkAPIView(APIView):
             return Response({
                 "status": "error",
                 "message": "Internal server error: access"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         user_data = get_user_data(access_token)
         gh_id = user_data.get('id', None)
@@ -91,17 +91,18 @@ class GithubLinkAPIView(APIView):
             return Response({
                 "status": "error",
                 "message": "Internal server error: gh_id"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         username = user_data.get('login', None)
         if username is None:
             return Response({
                 "status": "error",
                 "message": "Internal server error: username"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         user.github = gh_id
         user.github_username = username
+        user.github_access_token = access_token
         user.save()
 
         return Response({
@@ -125,7 +126,7 @@ class GithubAuthAPIView(APIView):
             return Response({
                 "status": "error",
                 "message": "Internal server error"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         user_data = get_user_data(access_token)
         github_id = user_data.get('id', None)
@@ -133,7 +134,7 @@ class GithubAuthAPIView(APIView):
             return Response({
                 "status": "error",
                 "message": "Internal server error"
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             user = ServiceUser.objects.get(github=github_id)

@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 class UserAgentAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets
     ADDITIONAL_USER_FIELDS = (
-        (None, {'fields': ('isu', 'patronymic', 'is_approved', 'github', 'github_username')}),
+        (None, {'fields': ('isu', 'patronymic', 'is_approved', 'github', 'github_username', 'github_access_token')}),
     )
     fieldsets = fieldsets + ADDITIONAL_USER_FIELDS
 

@@ -8,6 +8,7 @@ class ServiceUser(AbstractUser):
     isu = models.CharField(max_length=6, verbose_name="Табельный номер (ИСУ)")
     github = models.CharField(max_length=30, blank=True, null=True, verbose_name="Github ID")
     github_username = models.CharField(max_length=30, blank=True, null=True, verbose_name="Github Username")
+    github_access_token = models.CharField(max_length=100, blank=True, null=True, verbose_name="Github Access Token")
 
     is_approved = models.BooleanField(default=False, verbose_name="Утвержден")
 
