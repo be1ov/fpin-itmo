@@ -19,16 +19,17 @@ export function GithubLinkPage() {
             return;
         }
 
-        axiosInstance.post("/v1/github/link/", {
-            code
-        }).then((res) => {
-            console.log(res);
-            navigate("/?status=gh_success");
-        }).catch((err) => {
-            console.log(err);
-            navigate("/?status=gh_error");
-        });
-    }, []);
+        (async () => {
+            try {
+                const res = await axiosInstance.post("/v1/github/link/", { code });
+                console.log(res);
+                navigate("/?status=gh_success");
+            } catch (err) {
+                console.log(err);
+                navigate("/?status=gh_error");
+            }
+        })();
+    }, [search, navigate]);
 
     return <>Processing...</>;
 }
