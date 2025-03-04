@@ -27,6 +27,9 @@ function App() {
     const auth = useSelector(selectAuth);
     const enabledTheme = useSelector(selectTheme).mode;
 
+    const location = useLocation();
+    console.log("📍 Route changed:", location.pathname);
+
     useEffect(() => {
         console.log(`%c
             .--'''''''''--.
