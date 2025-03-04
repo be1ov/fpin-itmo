@@ -27,55 +27,7 @@ function App() {
     const auth = useSelector(selectAuth);
     const enabledTheme = useSelector(selectTheme).mode;
 
-    const location = useLocation();
-    console.log("📍 Route changed:", location.pathname);
-
     useEffect(() => {
-        console.log(`%c
-            .--'''''''''--.
-         .'      .---.      '.' 
-        /    .-----------.    \\
-       /        .-----.        \\
-       |       .-.   .-.       |
-       |      /   \\/    \\      |
-        \\    | .-. | .-. |    /
-         '-._| | | | | | |_.-' 
-             | '-' | '-' | 
-              \\___/ \\___/ 
-           _.-'  /   \\  \`-._ 
-         .' _.--|     |--._ '. 
-         ' _...-|     |-..._ ' 
-                |     | 
-                '.___.'
-                  | |
-                 _| |_ 
-                /\\( )/\\ 
-               /  \` '  \\ 
-              | |     | | 
-              '-'     '-' 
-              | |     | | 
-              | |     | | 
-              | |-----| | 
-           .\`/  |     | |/\`. 
-           |    |     |    | 
-           '._.'| .-. |'._.' 
-                 \\ | / 
-                 | | | 
-                 | | | 
-                 | | | 
-                /| | |\\ 
-              .'_| | |_.'.
-              \`. | | | .' 
-           .    /  |  \\    . 
-          /o\`.-'  / \\  \`-.\`o\\ 
-         /o  o\\ .'   \`. /o  o\\ 
-         \`.___.'       \`.___.'
-
-               SPONGEBOB.
-     PUT YOUR DEVTOOLS AWAY, SPONGEBOB.    
-WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW, 
-               SPONGEBOB.  
-`, "font-family:monospace");
         fetchCurrentUser();
     }, []);
 
