@@ -24,6 +24,7 @@ import {GithubAuthPage} from "./pages/api/GithubAuthPage.tsx";
 import {GithubLinkPage} from "./pages/api/GithubLinkPage.tsx";
 
 function App() {
+    console.log("App is rendered")
     const auth = useSelector(selectAuth);
     const enabledTheme = useSelector(selectTheme).mode;
 
