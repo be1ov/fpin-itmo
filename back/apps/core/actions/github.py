@@ -12,7 +12,9 @@ def get_access_token(code):
         'code': code,
     }
     response = requests.post(token_url, headers=headers, data=data)
-    access_token = response.json().get('access_token')
+    data = response.json()
+    print(data)
+    access_token = data.get('access_token')
 
     if not access_token:
         raise Exception('Failed to get access token')
