@@ -10,6 +10,8 @@ export function GithubLinkPage () {
         const query = new URLSearchParams(search);
         const code = query.get('code');
 
+        console.log(code)
+        
         if (!code) {
             navigate("/?status=gh_error");
             return;
