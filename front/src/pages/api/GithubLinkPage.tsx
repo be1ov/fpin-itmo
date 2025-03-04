@@ -18,8 +18,10 @@ export function GithubLinkPage () {
         axiosInstance.post("/v1/github/link/", {
             code
         }).then((res) => {
+            console.log(res)
             window.location.href = "/?status=gh_success"
-        }).catch((res) => {
+        }).catch((err) => {
+            console.log(err)
             window.location.href = "/?status=gh_error"
         })
     }, []);
