@@ -1,9 +1,11 @@
 import { useLocation} from "react-router-dom";
 import {useEffect, useRef} from "react";
 import axiosInstance from "../../utils/axios.ts";
+import { useNavigate } from 'react-router-dom';
 
 export function GithubLinkPage() {
     const { search } = useLocation();
+    const navigate = useNavigate();
     const hasRun = useRef(false);
 
     useEffect(() => {
@@ -14,25 +16,20 @@ export function GithubLinkPage() {
         const code = query.get('code');
 
         if (!code) {
-            window.location.href = "/?status=gh_error";
+            navigate("/?status=gh_error");
             return;
         }
 
         axiosInstance.post("/v1/github/link/", { code })
             .then((res) => {
                 console.log("API Response:", res);
-                window.location.href = "/?status=gh_success";
+                navigate("/?status=gh_success");
             })
             .catch((err) => {
                 console.log("API Error:", err);
-                window.location.href = "/?status=gh_error";
+                navigate("/?status=gh_error");
             });
-
-    }, [search]);
-
-    useEffect(() => {
-        console.log("GithubLinkPage MOUNTED");
-    }, []);
+    }, [search, navigate]); // Add navigate to dependencies
 
     return <>Processing...</>;
 }
