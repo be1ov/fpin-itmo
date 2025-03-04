@@ -28,7 +28,7 @@ export function GithubLinkPage() {
             console.log(err);
             navigate("/?status=gh_error");
         });
-    }, [search, navigate]);
+    }, []);
 
     return <>Processing...</>;
 }
