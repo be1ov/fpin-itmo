@@ -20,7 +20,6 @@ import {SubmissionPage} from "./pages/staff/SubmissionPage.tsx";
 import PointsPage from "./pages/PointsPage.tsx";
 import TestsPage from "./pages/TestsPage.tsx";
 import {TestPage} from "./pages/TestPage.tsx";
-import {GithubAuth} from "./utils/github.ts";
 import {GithubAuthPage} from "./pages/api/GithubAuthPage.tsx";
 import {GithubLinkPage} from "./pages/api/GithubLinkPage.tsx";
 
@@ -177,7 +176,7 @@ WE ARE NOT TRYING TO HACK PIN.DB RIGHT NOW,
                             <ProtectedRoute children={<TestPage/>}/>
                         }
                     />
-                    <Route path="/github/link" element={<GithubLinkPage/>}/>
+                    <Route path="/github/link" element={<GithubLinkPage key="github-link" />} />
                     <Route path="/auth/github" element={<GithubAuthPage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
                 </Routes>
