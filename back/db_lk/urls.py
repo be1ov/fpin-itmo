@@ -57,7 +57,7 @@ api_urls = [
     path("tests/assignment/", GetTestAssignmentAPIView.as_view()),
     path("tests/new_attempt/", CreateAttemptAPIView.as_view()),
     path("onlinetestpad_results/", OnlineTestPadResultsAPIView.as_view()),
-    path("github/link", GithubLinkAPIView.as_view()),
+    path("github/link/", GithubLinkAPIView.as_view()),
     path("", include(router.urls)),
 ]
 
