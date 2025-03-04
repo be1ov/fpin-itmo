@@ -14,7 +14,7 @@ export function GithubLinkPage () {
             return;
         }
 
-        axiosInstance.post("/v1/github/link", {
+        axiosInstance.post("/v1/github/link/", {
             code
         }).then(() => {
             window.location.href = "/?status=gh_success"
