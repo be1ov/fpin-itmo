@@ -30,6 +30,9 @@ export function GithubLinkPage() {
 
     }, [search]);
 
+    useEffect(() => {
+        console.log("GithubLinkPage MOUNTED");
+    }, []);
 
     return <>Processing...</>;
 }
