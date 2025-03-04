@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import {useCallback, useEffect, useRef} from "react";
 import axiosInstance from "../../utils/axios.ts";
 
 export function GithubLinkPage() {
@@ -7,6 +7,7 @@ export function GithubLinkPage() {
     const navigate = useNavigate();
     const hasRun = useRef(false);
 
+    const stableNavigate = useCallback(navigate, []);
     useEffect(() => {
         if (hasRun.current) return;
         hasRun.current = true;
@@ -15,21 +16,15 @@ export function GithubLinkPage() {
         const code = query.get('code');
 
         if (!code) {
-            navigate("/?status=gh_error");
+            stableNavigate("/?status=gh_error");
             return;
         }
 
-        (async () => {
-            try {
-                const res = await axiosInstance.post("/v1/github/link/", { code });
-                console.log(res);
-                navigate("/?status=gh_success");
-            } catch (err) {
-                console.log(err);
-                navigate("/?status=gh_error");
-            }
-        })();
-    }, [search, navigate]);
+        axiosInstance.post("/v1/github/link/", { code })
+            .then(() => stableNavigate("/?status=gh_success"))
+            .catch(() => stableNavigate("/?status=gh_error"));
+    }, [search, stableNavigate]);
+
 
     return <>Processing...</>;
 }
