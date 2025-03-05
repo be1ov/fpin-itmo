@@ -139,41 +139,61 @@ export default function SchedulePage() {
                 <Divider/>
                 <Space direction="vertical" style={{width: '100%'}}>
                     <Typography.Title level={5}>Отметка о посещении</Typography.Title>
-                    {!selectedLessonData.attendance && <>
-                        <Typography.Text>Вы еще не отправляли информацию о посещении этого занятия!</Typography.Text>
-                        <Upload customRequest={async ({file, onSuccess, onError}) => {
-                            try {
-                                const base64 = await toBase64(file);
+                    Крайний срок
+                    загрузки: {dayjs(selectedLessonData?.assignments_block_date).format("DD.MM.YYYY HH:mm:ss")}
 
-                                const payload = {
-                                    filename: file.name,
-                                    binary: base64,
-                                    lessonDate: selectedLessonDate?.format("YYYY-MM-DD")
-                                }
+                    {dayjs() < dayjs(selectedLessonData?.lesson.date) &&
+                        <Alert type={"info"} description={"Не торопись! Время занятия еще не наступило..."}/>}
 
-                                await axiosInstance.post("/v1/lesson/upload_attendance/", payload)
-                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                // @ts-expect-error
-                                onSuccess()
-                                notification.success({
-                                    message: "Информация отправлена!"
-                                })
-                            } catch (error) {
-                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                // @ts-expect-error
-                                onError(error)
-                            } finally {
-                                setIsOpen(false)
-                            }
-                        }}>
-                            <Button icon={<UploadOutlined/>}>Загрузить</Button>
-                        </Upload>
-                    </>}
-                    {selectedLessonData.attendance && <>
-                        {!selectedLessonData.attendance.is_approved &&
-                            <Alert type={"warning"} description={"Информация о посещении занятия на рассмотрении."}/>}
-                        {selectedLessonData.attendance.is_approved &&
-                            <Alert type={"success"} description={"Посещение подтверждено, спасибо!"}/>}
+                    {dayjs() >= dayjs(selectedLessonData?.lesson.date) && <>
+                        <Typography.Text>Дедлайн для
+                            отправки: {dayjs(selectedLessonData?.lesson.assignments_block_date).format("DD.MM.YYYY, HH:mm:ss")}</Typography.Text>
+
+                        {!selectedLessonData.attendance && <>
+                            {dayjs() >= dayjs(selectedLessonData?.lesson.assignments_block_date) &&
+                                <Alert type={"error"} description={"Прием информации о посещении окончен"}/>}
+                            {dayjs() < dayjs(selectedLessonData?.lesson.assignments_block_date) && <>
+                                <Typography.Text>Вы еще не отправляли информацию о посещении этого
+                                    занятия!</Typography.Text>
+                                <Upload customRequest={async ({file, onSuccess, onError}) => {
+                                    try {
+                                        const base64 = await toBase64(file);
+
+                                        const payload = {
+                                            filename: file.name,
+                                            binary: base64,
+                                            lessonDate: selectedLessonDate?.format("YYYY-MM-DD")
+                                        }
+
+                                        await axiosInstance.post("/v1/lesson/upload_attendance/", payload)
+                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                        // @ts-expect-error
+                                        onSuccess()
+                                        notification.success({
+                                            message: "Информация отправлена!"
+                                        })
+                                    } catch (error) {
+                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                        // @ts-expect-error
+                                        onError(error)
+                                        notification.error({
+                                            message: "Произошла ошибка при отправке, попробуйте позднее"
+                                        })
+                                    } finally {
+                                        setIsOpen(false)
+                                    }
+                                }}>
+                                    <Button icon={<UploadOutlined/>}>Загрузить</Button>
+                                </Upload>
+                            </>}
+                        </>}
+                        {selectedLessonData.attendance && <>
+                            {!selectedLessonData.attendance.is_approved &&
+                                <Alert type={"warning"}
+                                       description={"Информация о посещении занятия на рассмотрении."}/>}
+                            {selectedLessonData.attendance.is_approved &&
+                                <Alert type={"success"} description={"Посещение подтверждено, спасибо!"}/>}
+                        </>}
                     </>}
                 </Space>
             </Modal>
@@ -181,7 +201,8 @@ export default function SchedulePage() {
                 <Typography.Title level={2}>
                     Расписание занятий
                 </Typography.Title>
-                <Alert type={"warning"} description={"Информация о посещениях предоставляется для фактически посещенного занятия"} />
+                <Alert type={"warning"}
+                       description={"Информация о посещениях предоставляется для фактически посещенного занятия"}/>
                 <Calendar mode={"month"} cellRender={cellRender} onSelect={(date, selectInfo) => {
                     if (lessonsData.find(e => e.date == date.format("YYYY-MM-DD"))) {
                         setSelectedLessonDate(date)
