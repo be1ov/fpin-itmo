@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from django.core.files.base import ContentFile
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -31,6 +32,14 @@ class UploadAttendanceView(APIView):
                 "status": "error",
                 "message": "Lesson not found"
             }, status=status.HTTP_404_NOT_FOUND)
+
+        if not lesson.assignments_block_date is None:
+            if lesson.assignments_block_date < timezone.now():
+                return Response({
+                    "status": "error",
+                    "message": "Lesson block date is in the past"
+                }, status=status.HTTP_400_BAD_REQUEST)
+
 
         file_content = base64.b64decode(file_data)
         file = ContentFile(file_content, name=f"{request.user.isu}_{file_name}")

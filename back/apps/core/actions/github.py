@@ -13,8 +13,6 @@ def get_access_token(code):
     }
     response = requests.post(token_url, headers=headers, data=data)
     data = response.json()
-    print(code)
-    print(data)
     access_token = data.get('access_token')
 
     if not access_token:

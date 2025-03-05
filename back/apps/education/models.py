@@ -52,6 +52,8 @@ class Lesson(models.Model):
     date = models.DateTimeField()
     is_obligatory = models.BooleanField()
 
+    assignments_block_date = models.DateTimeField(blank=True, null=True)
+
     class LessonType(models.TextChoices):
         LECTURE = 'LECTURE', _('Лекция')
         PRACTICE = 'PRACTICE', _('Практика')
