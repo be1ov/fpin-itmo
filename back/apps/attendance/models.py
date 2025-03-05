@@ -7,7 +7,7 @@ from apps.persons.models import ServiceUser
 class Attendance(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.PROTECT)
     user = models.ForeignKey(ServiceUser, on_delete=models.PROTECT, null=True)
-    attachment = models.FileField(upload_to='attendances', null=True)
+    attachment = models.FileField(upload_to='attendances', null=True, blank=True)
     is_approved = models.BooleanField()
 
     def __str__(self):
