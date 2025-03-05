@@ -143,8 +143,7 @@ export default function SchedulePage() {
                         <Alert type={"info"} description={"Не торопись! Время занятия еще не наступило..."}/>}
 
                     {dayjs() >= dayjs(selectedLessonData?.lesson?.date) && <>
-                        <Typography.Text>Дедлайн для
-                            отправки: {dayjs(selectedLessonData?.lesson?.assignments_block_date).format("DD.MM.YYYY, HH:mm:ss")}</Typography.Text>
+                        <Typography.Text>Дата блокировки отправки: {dayjs(selectedLessonData?.lesson?.assignments_block_date).format("DD.MM.YYYY, HH:mm:ss")}</Typography.Text>
 
                         {!selectedLessonData.attendance && <>
                             {dayjs() >= dayjs(selectedLessonData?.lesson?.assignments_block_date) &&
