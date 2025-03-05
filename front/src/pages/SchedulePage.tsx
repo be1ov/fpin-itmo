@@ -139,20 +139,17 @@ export default function SchedulePage() {
                 <Divider/>
                 <Space direction="vertical" style={{width: '100%'}}>
                     <Typography.Title level={5}>Отметка о посещении</Typography.Title>
-                    Крайний срок
-                    загрузки: {dayjs(selectedLessonData?.assignments_block_date).format("DD.MM.YYYY HH:mm:ss")}
-
-                    {dayjs() < dayjs(selectedLessonData?.lesson.date) &&
+                    {dayjs() < dayjs(selectedLessonData?.lesson?.date) &&
                         <Alert type={"info"} description={"Не торопись! Время занятия еще не наступило..."}/>}
 
-                    {dayjs() >= dayjs(selectedLessonData?.lesson.date) && <>
+                    {dayjs() >= dayjs(selectedLessonData?.lesson?.date) && <>
                         <Typography.Text>Дедлайн для
-                            отправки: {dayjs(selectedLessonData?.lesson.assignments_block_date).format("DD.MM.YYYY, HH:mm:ss")}</Typography.Text>
+                            отправки: {dayjs(selectedLessonData?.lesson?.assignments_block_date).format("DD.MM.YYYY, HH:mm:ss")}</Typography.Text>
 
                         {!selectedLessonData.attendance && <>
-                            {dayjs() >= dayjs(selectedLessonData?.lesson.assignments_block_date) &&
+                            {dayjs() >= dayjs(selectedLessonData?.lesson?.assignments_block_date) &&
                                 <Alert type={"error"} description={"Прием информации о посещении окончен"}/>}
-                            {dayjs() < dayjs(selectedLessonData?.lesson.assignments_block_date) && <>
+                            {dayjs() < dayjs(selectedLessonData?.lesson?.assignments_block_date) && <>
                                 <Typography.Text>Вы еще не отправляли информацию о посещении этого
                                     занятия!</Typography.Text>
                                 <Upload customRequest={async ({file, onSuccess, onError}) => {
