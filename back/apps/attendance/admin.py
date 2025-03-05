@@ -5,7 +5,7 @@ from apps.attendance.models import Attendance
 
 @admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'lesson')
+    list_display = ('user', 'lesson', 'is_approved')
     list_filter = ("is_approved",)
     actions = ("approve",)
 
