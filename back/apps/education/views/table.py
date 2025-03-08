@@ -22,12 +22,19 @@ class TableAPIView(APIView):
 
         data = {
             "bars": [],
+            "tasks": [],
             "students": []
         }
 
         # Сбор инфы по барсу
         bars_states = semester.barsstate_set.all()
         data["bars"] = BarsStateSerializer(bars_states, many=True).data
+
+        #Сбор инфы по таскам (общее)
+        flows = semester.flow_set.all()
+        for flow in flows:
+            assignments = TaskAssignment.objects.filter(flow=flow).all()
+            data["tasks"].extend(TaskAssignmentSerializer(assignments, many=True).data)
 
         students = Student.objects.filter(flow__semester=semester).all()
         for student in students:
