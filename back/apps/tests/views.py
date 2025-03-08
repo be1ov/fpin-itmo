@@ -115,7 +115,7 @@ class OnlineTestPadResultsAPIView(APIView):
                 "message": "attempt_id is required"
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        attempt = TestAttempts.objects.filter(id=attempt_id).first()
+        attempt = TestAttempts.objects.filter(id=attempt_id, test_assignment__test=test).first()
         if attempt is None:
             return Response({
                 "status": "error",
@@ -125,7 +125,7 @@ class OnlineTestPadResultsAPIView(APIView):
         assignment = attempt.test_assignment
         max_points = assignment.max_points
         if assignment.attempts_fees:
-            fee = (attempt.attempt_attempt_number - 1) * assignment.attempt_fee_amount
+            fee = (attempt.attempt_number - 1) * assignment.attempt_fee_amount
             max_points -= fee
 
         results = request.data.get('results', None)
@@ -174,8 +174,7 @@ class CreateAttemptAPIView(APIView):
 
         previous_attempts = TestAttempts.objects.filter(
             test_assignment__flow__semester=assignment.flow.semester,
-            student__user=user,
-            is_revised=True
+            student__user=user
         ).all()
         attempt_number = len(previous_attempts) + 1
 
