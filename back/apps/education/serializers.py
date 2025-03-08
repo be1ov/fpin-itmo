@@ -11,6 +11,8 @@ class SemesterSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FlowSerializer(serializers.ModelSerializer):
+    semester = SemesterSerializer(read_only=True)
+
     class Meta:
         model = Flow
         fields = '__all__'
