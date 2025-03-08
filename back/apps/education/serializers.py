@@ -36,7 +36,7 @@ class TaskSubmissionSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     flow = FlowSerializer(read_only=True)
-    person = ServiceUserSerializer(read_only=True)
+    user = ServiceUserSerializer(read_only=True)
 
     class Meta:
         model = Student
