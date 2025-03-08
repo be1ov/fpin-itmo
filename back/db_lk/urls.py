@@ -28,6 +28,7 @@ from apps.education.views.bars import BarsStatesView
 from apps.education.views.lessons import LessonsView
 from apps.education.views.points import PointsView, SetPointsView
 from apps.education.views.submissions import SubmissionStatusAttachments
+from apps.education.views.table import TableAPIView
 from apps.education.views.tasks import TaskView, TaskAssignView
 from apps.persons.views import PersonViewSet, CurrentUserView, UsersViewSet
 from apps.tests.views import GetTestsAPIView, OnlineTestPadResultsAPIView, GetTestAssignmentAPIView, \
@@ -58,6 +59,7 @@ api_urls = [
     path("tests/new_attempt/", CreateAttemptAPIView.as_view()),
     path("onlinetestpad_results/", OnlineTestPadResultsAPIView.as_view()),
     path("github/link/", GithubLinkAPIView.as_view()),
+    path("table/", TableAPIView.as_view()),
     path("", include(router.urls)),
 ]
 
