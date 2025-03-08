@@ -4,9 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.education.actions.semester import current_semester
-from apps.education.models import Student, TaskAssignment, TaskSubmission, PointsEntrance
+from apps.education.models import Student, TaskAssignment, TaskSubmission, PointsEntrance, BarsState
 from apps.education.serializers import StudentSerializer, TaskAssignmentSerializer, TaskSubmissionSerializer, \
-    PointsEntranceSerializer
+    PointsEntranceSerializer, BarsStateSerializer
 
 
 class TableAPIView(APIView):
@@ -20,7 +20,14 @@ class TableAPIView(APIView):
                 "message": "semester not found"
             }, status=status.HTTP_404_NOT_FOUND)
 
-        data = []
+        data = {
+            "bars": [],
+            "students": []
+        }
+
+        # Сбор инфы по барсу
+        bars_states = semester.barsstate_set.all()
+        data["bars"] = BarsStateSerializer(bars_states, many=True).data
 
         students = Student.objects.filter(flow__semester=semester).all()
         for student in students:
@@ -48,7 +55,7 @@ class TableAPIView(APIView):
                 }
                 student_data["tasks"].append(task_data)
 
-            data.append(student_data)
+            data["students"].append(student_data)
 
         return Response({
             "status": "success",
