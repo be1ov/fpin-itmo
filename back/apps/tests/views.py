@@ -125,7 +125,7 @@ class OnlineTestPadResultsAPIView(APIView):
         assignment = attempt.test_assignment
         max_points = assignment.max_points
         if assignment.attempts_fees:
-            fee = (attempt.attempt_number - 1) * assignment.attempt_fee_amount
+            fee = (attempt.attempt_number - 1) * (assignment.attempt_fee_amount if assignment.attempt_fee_amount else 0)
             max_points -= fee
 
         results = request.data.get('results', None)
