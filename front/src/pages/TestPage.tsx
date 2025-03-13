@@ -15,16 +15,21 @@ export function TestPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setIsLoading(true);
         const fetchData = () => {
-            setIsLoading(true)
-            axiosInstance.get(`/v1/tests/assignment?assignment_id=${params.id}`).then(res => {
-                setAssignment(res.data.data.assignment);
-                setAttempts(res.data.data.attempts);
-            }).finally(() => {
-                setIsLoading(false)
-            })
-        }
-        fetchData()
+            axiosInstance.get(`/v1/tests/assignment?assignment_id=${params.id}`)
+                .then(res => {
+                    setAssignment(res.data.data.assignment);
+                    setAttempts(res.data.data.attempts);
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        };
+
+        fetchData();
+        const intervalId = setInterval(fetchData, 1000);
+        return () => clearInterval(intervalId);
     }, [params]);
 
     return <LayoutComponent>
@@ -62,13 +67,14 @@ export function TestPage() {
                                     <List bordered dataSource={attempts} renderItem={(item) =>
                                         <List.Item key={item.id}>
                                             <List.Item.Meta
-                                            title={`Попытка №${item.attempt_number}`}
-                                            description={item.created_at}/>
+                                                title={`Попытка №${item.attempt_number}`}
+                                                description={item.created_at}/>
                                             <div>
                                                 {!item.result_at && <Tag color={"error"}>нет результата</Tag>}
                                                 {item.result_at && <>
                                                     {!item.is_revised && <Tag color={"warning"}>результат получен</Tag>}
-                                                    {item.is_revised && <Tag color={item.test_passed ? "success" : "error"}>{item.points} б.</Tag>}
+                                                    {item.is_revised && <Tag
+                                                        color={item.test_passed ? "success" : "error"}>{item.points} б.</Tag>}
                                                 </>}
                                             </div>
                                         </List.Item>
