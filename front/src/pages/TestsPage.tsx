@@ -1,9 +1,10 @@
 import LayoutComponent from "../components/Layout.tsx";
-import {Divider, Empty, notification, Space, Spin, Typography} from "antd";
+import {Card, Col, Divider, Empty, notification, Row, Space, Spin, Typography} from "antd";
 import React, {useEffect} from "react";
 import Typing from 'react-typing-effect';
 import TypingEffect from "../components/TypingEffect.tsx";
 import axiosInstance from "../utils/axios.ts";
+import {Link} from "react-router-dom";
 
 export default function TestsPage() {
     const [tests, setTests] = React.useState([]);
@@ -75,6 +76,19 @@ export default function TestsPage() {
                 и незачтенные тоже.
                 <br/>Короче, все тесты. Здесь живут тесты.</Typography.Text>
             <Divider/>
+            <Row gutter={[8, 8]}>
+                {
+                    tests.map((test) => {
+                        return <Col xs={24} lg={8}>
+                            <Link to={`/test-assignment/${test.id}`}>
+                                <Card title={test.test.title}>
+                                    <Typography.Paragraph>Балл: {test.min_points}–{test.max_points}</Typography.Paragraph>
+                                </Card>
+                            </Link>
+                        </Col>
+                    })
+                }
+            </Row>
             {
                 (isLoading || showStatus) && <div style={{
                     width: "100%",
@@ -88,7 +102,8 @@ export default function TestsPage() {
                             <Spin/>
                         </>}
                         {tests.length == 0 && <Empty description={"Тестов пока что нет..."}/>}
-                        {showStatus && <TypingEffect texts={statuses} typingSpeed={20} erasingSpeed={20} delayBeforeErase={1500}/>}
+                        {showStatus &&
+                            <TypingEffect texts={statuses} typingSpeed={20} erasingSpeed={20} delayBeforeErase={1500}/>}
                     </Space>
                 </div>
             }
