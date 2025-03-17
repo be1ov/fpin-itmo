@@ -3,6 +3,12 @@
 from django.db import migrations
 
 
+def fill_user_task_submission(apps, schema_editor):
+    task_submission = apps.get_model('education', 'TaskSubmission')
+    for row in task_submission.objects.all():
+        row.user = row.student.user
+        row.save()
+
 class Migration(migrations.Migration):
 
     dependencies = [
