@@ -16,4 +16,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(fill_user_task_submission),
     ]
