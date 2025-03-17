@@ -113,6 +113,7 @@ class TaskSubmission(models.Model):
     assignment = models.ForeignKey(TaskAssignment, on_delete=models.PROTECT)
     coordinator = models.ForeignKey(ServiceUser, on_delete=models.PROTECT, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.PROTECT)
+    user = models.ForeignKey(ServiceUser, on_delete=models.PROTECT, null=True, blank=True)
     date = models.DateTimeField(default=datetime.now)
 
     class Meta:
