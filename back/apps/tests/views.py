@@ -175,7 +175,8 @@ class CreateAttemptAPIView(APIView):
 
         previous_attempts = TestAttempts.objects.filter(
             test_assignment__flow__semester=assignment.flow.semester,
-            student__user=user
+            student__user=user,
+            test_assignment__test=assignment.test
         ).all()
         attempt_number = len(previous_attempts) + 1
 
