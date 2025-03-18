@@ -137,7 +137,7 @@ class OnlineTestPadResultsAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         percents = [obj for obj in results if obj["name"] == "Процент правильных ответов (%)"][0]
-        points = max_points * (percents["value"]/100)
+        points = round(max_points * (percents["value"]/100), 2)
 
         attempt.points = points
         attempt.result_at = timezone.now()
