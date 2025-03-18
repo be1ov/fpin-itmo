@@ -30,7 +30,7 @@ class TestAssignment(models.Model):
     attempt_fee_amount = models.FloatField(null=True, blank=True)
 
     def __str__(self):
-        return f"Assignment for {self.test.title} on {self.assignment_date}"
+        return f"Assignment for {self.test.title} on {self.assignment_date} ({self.flow})"
 
 
 class TestAttempts(models.Model):
