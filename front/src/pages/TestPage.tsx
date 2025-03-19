@@ -89,7 +89,8 @@ export function TestPage() {
                                 axiosInstance.post(`/v1/tests/new_attempt/`, {
                                     assignment_id: params.id,
                                 }).then(res => {
-                                    window.open(res.data.data.attempt_link, '_blank').focus();
+                                    window.open(res.data.data.attempt_link);
+                                    // window.open(res.data.data.attempt_link, '_blank').focus();
                                 })
                             }}>Новая попытка</Button>
                         </Space>
