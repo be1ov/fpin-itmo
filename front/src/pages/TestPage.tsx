@@ -72,7 +72,7 @@ export function TestPage() {
                                                 {item.result_at && <>
                                                     {!item.is_revised && <Tag color={"warning"}>результат получен</Tag>}
                                                     {item.is_revised && <Tag
-                                                        color={item.test_passed ? "success" : "error"}>{item.points} б.</Tag>}
+                                                        color={item.test_passed ? "success" : "error"}>{item.test_passed ? "Зачет" : "Незачет"} — {item.points} б.</Tag>}
                                                 </>}
                                             </div>
                                         </List.Item>
