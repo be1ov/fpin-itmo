@@ -28,8 +28,6 @@ export function TestPage() {
         };
 
         fetchData();
-        const intervalId = setInterval(fetchData, 1000);
-        return () => clearInterval(intervalId);
     }, [params]);
 
     return <LayoutComponent>
@@ -89,7 +87,7 @@ export function TestPage() {
                                 axiosInstance.post(`/v1/tests/new_attempt/`, {
                                     assignment_id: params.id,
                                 }).then(res => {
-                                    window.open(res.data.data.attempt_link, '_blank').focus();
+                                    window.location.href = res.data.data.attempt_link
                                 })
                             }}>Новая попытка</Button>
                         </Space>
