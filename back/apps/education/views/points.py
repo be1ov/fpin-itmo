@@ -29,7 +29,7 @@ class PointsView(APIView):
 
                 data.append({
                     "title": assignment.task.title,
-                    "points": points.amount if points is not None else 0,
+                    "points": float(points.amount) if points is not None else 0,
                     "author": ServiceUserSerializer(points.author).data if points is not None else None,
                     "max": assignment.max_points,
                     "barsed_at": BarsStateSerializer(points.bars_state).data if points is not None else None
@@ -45,7 +45,7 @@ class PointsView(APIView):
                 ).order_by('-points').first()
                 data.append({
                     "title": f"{test_assignment.test.title} (тест)",
-                    "points": float(top_attempt.points) if top_attempt else 0,
+                    "points": top_attempt.points if top_attempt else 0,
                     "author": ServiceUserSerializer(top_attempt.evaluator).data if top_attempt and top_attempt.evaluator else None,
                     "max": test_assignment.max_points,
                     "barsed_at": None
