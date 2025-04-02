@@ -1,4 +1,5 @@
 from django.utils import timezone
+from back.apps.tests.models import TestAssignment, TestAttempts
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -33,6 +34,23 @@ class PointsView(APIView):
                     "max": assignment.max_points,
                     "barsed_at": BarsStateSerializer(points.bars_state).data if points is not None else None
                 })
+
+            assigned_tests = TestAssignment.objects.filter(flow=student.flow, max_points__gt=0).all()
+            for test_assignment in assigned_tests:
+                top_attempt = TestAttempts.objects.filter(
+                    test_assignment=test_assignment,
+                    is_revised=True,
+                    test_passed=True,
+                    student=student
+                ).order_by('-points').first()
+                if top_attempt:
+                    data.append({
+                        "title": test_assignment.test.title,
+                        "points": top_attempt.points,
+                        "author": ServiceUserSerializer(top_attempt.evaluator).data if top_attempt.evaluator else None,
+                        "max": test_assignment.max_points,
+                        "barsed_at": None
+                    })
 
         total = sum([point["points"] for point in data])
 
