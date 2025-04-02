@@ -44,7 +44,7 @@ class PointsView(APIView):
                     student=student
                 ).order_by('-points').first()
                 data.append({
-                    "title": test_assignment.test.title,
+                    "title": f"{test_assignment.test.title} (тест)",
                     "points": top_attempt.points if top_attempt else 0,
                     "author": ServiceUserSerializer(top_attempt.evaluator).data if top_attempt and top_attempt.evaluator else None,
                     "max": test_assignment.max_points,
