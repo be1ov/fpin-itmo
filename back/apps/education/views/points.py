@@ -1,5 +1,5 @@
 from django.utils import timezone
-from back.apps.tests.models import TestAssignment, TestAttempts
+from apps.tests.models import TestAssignment, TestAttempts
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
