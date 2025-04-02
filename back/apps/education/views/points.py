@@ -43,14 +43,13 @@ class PointsView(APIView):
                     test_passed=True,
                     student=student
                 ).order_by('-points').first()
-                if top_attempt:
-                    data.append({
-                        "title": test_assignment.test.title,
-                        "points": top_attempt.points,
-                        "author": ServiceUserSerializer(top_attempt.evaluator).data if top_attempt.evaluator else None,
-                        "max": test_assignment.max_points,
-                        "barsed_at": None
-                    })
+                data.append({
+                    "title": test_assignment.test.title,
+                    "points": top_attempt.points if top_attempt else None,
+                    "author": ServiceUserSerializer(top_attempt.evaluator).data if top_attempt and top_attempt.evaluator else None,
+                    "max": test_assignment.max_points,
+                    "barsed_at": None
+                })
 
         total = sum([point["points"] for point in data])
 
