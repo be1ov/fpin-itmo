@@ -6,6 +6,7 @@ import {useSelector} from "react-redux";
 import {selectAuth} from "../../redux/slices/AuthSlice.ts";
 import {UsersTab} from "./UsersTab.tsx";
 import {SubmissionsTab} from "./SubmissionsTab.tsx";
+import { TotalTab } from "../../components/staff/tabs/TotalTab.tsx";
 
 export function StaffPage() {
 
@@ -32,6 +33,11 @@ export function StaffPage() {
             label: "Задания",
             key: "tasks",
             children: ""
+        },
+        {
+            label: "Сводная таблица",
+            key: "total",
+            children: <TotalTab />
         }
     ]
 
