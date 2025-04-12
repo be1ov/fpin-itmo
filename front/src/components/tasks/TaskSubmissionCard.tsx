@@ -38,18 +38,19 @@ export function TaskSubmissionCard({submissionId}: {
     const [isLoading, setIsLoading] = useState(true);
 
     const [isOpen, setIsOpen] = useState(false)
+    
+    const fetchData = () => {
+        axiosInstance.get(`/v1/education/submission?id=${submissionId}`).then(res => {
+            setSubmission(res.data.data.submission);
+            setStatuses(res.data.data.statuses)
+            setPoints(res.data.data.points)
+        }).finally(() => {
+            setIsLoading(false)
+        })
+    }
 
     useEffect(() => {
         setIsLoading(true)
-        const fetchData = () => {
-            axiosInstance.get(`/v1/education/submission?id=${submissionId}`).then(res => {
-                setSubmission(res.data.data.submission);
-                setStatuses(res.data.data.statuses)
-                setPoints(res.data.data.points)
-            }).finally(() => {
-                setIsLoading(false)
-            })
-        }
         fetchData()
     }, [isOpen, submissionId]);
 
