@@ -101,7 +101,7 @@ class Lesson(models.Model):
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
 
-    common_lesson = models.ManyToManyField(CommonLesson)
+    common_lessons = models.ManyToManyField(CommonLesson)
 
     def __str__(self):
         return f"{self.title} ({self.date})"
