@@ -21,6 +21,7 @@ class Semester(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+
 class Flow(models.Model):
     title = models.CharField(max_length=30)
     semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
@@ -31,6 +32,7 @@ class Flow(models.Model):
 
     def __str__(self):
         return f"{self.title}, {self.semester}"
+
 
 class Student(models.Model):
     flow = models.ForeignKey(Flow, on_delete=models.PROTECT)
@@ -46,6 +48,30 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.user} ({self.flow})"
+
+
+class CommonLesson(models.Model):
+    title = models.CharField(max_length=150)
+    is_obligatory = models.BooleanField()
+
+    class LessonType(models.TextChoices):
+        LECTURE = 'LECTURE', _('Лекция')
+        PRACTICE = 'PRACTICE', _('Практика')
+        CONSULTATION = 'CONSULTATION', _('Консультация')
+        CREDIT = 'CREDIT', _('Зачет')
+        EXAM = 'EXAM', _('Экзамен')
+
+    type = models.CharField(
+        max_length=30,
+        choices=LessonType.choices,
+        default=LessonType.LECTURE,
+    )
+
+    semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"{self.title} ({self.date})"
+        
 
 class Lesson(models.Model):
     title = models.CharField(max_length=150)
@@ -75,6 +101,8 @@ class Lesson(models.Model):
         verbose_name = "Занятие"
         verbose_name_plural = "Занятия"
 
+    common_lesson = models.ManyToManyField(CommonLesson)
+
     def __str__(self):
         return f"{self.title} ({self.date})"
 
@@ -88,6 +116,7 @@ class BarsState(models.Model):
 
     def __str__(self):
         return f"{self.title} [{self.minimum_points}-{self.maximum_points}] ({self.semester})"
+
 
 class TaskAssignment(models.Model):
     flow = models.ForeignKey(Flow, on_delete=models.PROTECT)
@@ -108,6 +137,7 @@ class TaskAssignment(models.Model):
 
     def __str__(self):
         return f"{self.task} - {self.flow}"
+
 
 class TaskSubmission(models.Model):
     assignment = models.ForeignKey(TaskAssignment, on_delete=models.PROTECT)
@@ -150,6 +180,7 @@ class TaskSubmissionStatus(models.Model):
     def __str__(self):
         return f"{self.status} - {self.submission}"
 
+
 class TaskSubmissionStatusAttachment(models.Model):
     status = models.ForeignKey(TaskSubmissionStatus, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
@@ -159,6 +190,7 @@ class TaskSubmissionStatusAttachment(models.Model):
     class Meta:
         verbose_name = "Вложение (сдача задания)"
         verbose_name_plural = "Вложения (сдачи заданий)"
+
 
 class PointsEntrance(models.Model):
     author = models.ForeignKey(ServiceUser, on_delete=models.PROTECT)
