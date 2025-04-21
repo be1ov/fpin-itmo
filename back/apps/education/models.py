@@ -70,7 +70,7 @@ class CommonLesson(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.PROTECT)
 
     def __str__(self):
-        return f"{self.title} ({self.date})"
+        return f"{self.title} ({self.semester})"
         
 
 class Lesson(models.Model):
