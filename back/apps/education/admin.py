@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from apps.education.models import Semester, Flow, Student, Lesson, PointsEntrance, TaskAssignment, TaskSubmission, \
     TaskSubmissionStatus, \
-    TaskSubmissionStatusAttachment, BarsState
+    TaskSubmissionStatusAttachment, BarsState, CommonLesson
 
 admin.site.register(Semester)
 admin.site.register(Flow)
@@ -14,6 +14,7 @@ admin.site.register(TaskSubmission)
 admin.site.register(TaskSubmissionStatus)
 admin.site.register(TaskSubmissionStatusAttachment)
 admin.site.register(BarsState)
+admin.site.register(CommonLesson)
 
 
 @admin.register(Student)
