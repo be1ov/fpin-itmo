@@ -28,6 +28,7 @@ class PointsView(APIView):
                 points = PointsEntrance.objects.filter(task_submission=submission).order_by("-date").first() if submission is not None else None
 
                 data.append({
+                    "task_id": assignment.task.id,
                     "title": assignment.task.title,
                     "points": float(points.amount) if points is not None else 0,
                     "author": ServiceUserSerializer(points.author).data if points is not None else None,
