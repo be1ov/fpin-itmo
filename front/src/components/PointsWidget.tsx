@@ -11,7 +11,14 @@ export function PointsWidget() {
         const fetchData = () => {
             setIsLoading(true);
             axiosInstance.get("/v1/points").then(res => {
-                setData(res.data.data);
+                const data = res.data.data
+                data.sort((a, b) => {
+                  if (a.task_id == null) return 1;
+                  if (b.task_id == null) return -1;
+                  return a.task_id - b.task_id;
+                });
+                
+                setData(data);
             }).finally(() => {
                 setIsLoading(false);
             })
