@@ -12,7 +12,7 @@ export function PointsWidget() {
             setIsLoading(true);
             axiosInstance.get("/v1/points").then(res => {
                 const data = res.data.data
-                data.sort((a, b) => {
+                data.points.sort((a, b) => {
                   if (a.task_id == null) return 1;
                   if (b.task_id == null) return -1;
                   return a.task_id - b.task_id;
