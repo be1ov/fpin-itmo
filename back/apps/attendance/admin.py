@@ -14,6 +14,5 @@ class AttendanceAdmin(admin.ModelAdmin):
 
     def approve(self, request, queryset):
         queryset.update(is_approved=True)
-        queryset.update(attachment=None)
         self.message_user(request, "Посещение подтверждено")
     approve.short_description = "Подтвердить"
