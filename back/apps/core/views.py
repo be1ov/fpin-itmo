@@ -52,7 +52,7 @@ class SignUpView(APIView):
         user.last_name = last_name
         user.patronymic = patronymic
         user.isu = isu
-        user.email_address = email
+        user.email = email
         user.set_password(password)
 
         user.save()
