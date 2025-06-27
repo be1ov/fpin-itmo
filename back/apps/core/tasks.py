@@ -24,8 +24,8 @@ def get_bars_data():
         row_dict = dict(zip(columns, row))
 
         full_name = " ".join([
-            row_dict.get("first_name"),
             row_dict.get("last_name"),
+            row_dict.get("first_name"),
             row_dict.get("patronymic") if row_dict.get("patronymic") else ""
         ])
 
