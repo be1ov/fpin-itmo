@@ -10,16 +10,6 @@ services:
             - .env
         networks:
             - pindb-network
-        depends_on:
-            - postgres
-    postgres:
-        image: postgres:15
-        env_file:
-            - .env
-        volumes:
-            - postgres-data:/var/lib/postgresql/data
-        networks:
-            - pindb-network
     react:
         build:
             context: ./front
@@ -29,8 +19,6 @@ services:
             - /app/node_modules
         networks:
             - pindb-network
-        # dns:
-        #     - 8.8.8.8
         depends_on:
             - django
     nginx:
@@ -39,15 +27,12 @@ services:
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
         networks:
-            - sw_sw-network
             - pindb-network
         restart: always
         depends_on:
             - react
             - django
+        ports:
+            - "80:80"
 networks:
     pindb-network:
-    sw_sw-network:
-        external: true
-volumes:
-    postgres-data:
