@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'apps.tests',
     'rest_framework_simplejwt.token_blacklist',
     'explorer',
-    'apps.projects'
+    'apps.projects',
+    'apps.learnsql_integration'
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,8 @@ SIMPLE_JWT = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LEARN_SQL_BASE_URL = "https://learnsql.ru/"
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")

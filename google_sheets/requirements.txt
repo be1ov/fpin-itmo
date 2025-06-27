@@ -1,0 +1,7 @@
+celery
+redis
+gspread
+google-auth
+pydantic
+pydantic-settings
+apscheduler
