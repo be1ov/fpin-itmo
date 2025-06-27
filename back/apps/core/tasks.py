@@ -25,7 +25,7 @@ def get_bars_data():
         full_name = " ".join((
             row_dict.get("first_name"),
             row_dict.get("last_name"),
-            row_dict.get("patronymic"),
+            row_dict.get("patronymic", ""),
         ))
 
         data.append({
