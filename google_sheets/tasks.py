@@ -5,7 +5,6 @@ from sheets import write_to_sheet
 
 RPC_TASK_NAME = "apps.core.tasks.get_bars_data"
 
-@app.task
 def export_data_to_google_sheet():
     result = app.send_task(RPC_TASK_NAME)
 

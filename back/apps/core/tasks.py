@@ -7,7 +7,7 @@ from apps.core.actions.bars import get_bars_data_query
 from apps.education.actions.semester import current_semester
 
 
-@shared_task
+@shared_task(name="apps.core.tasks.get_bars_data")
 def get_bars_data():
     semester = current_semester()
 
