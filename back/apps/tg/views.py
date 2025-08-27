@@ -4,14 +4,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from actions.signature import (
+from apps.tg.actions.signature import (
     HashNotFoundException,
     SignatureInvalidException,
     validate_signature,
 )
-from back.apps.persons.serializers import ServiceUserSerializer
-from serializers.telegram_link_serializer import TelegramLinkSerializer
-from models import TelegramAccount
+from apps.persons.serializers import ServiceUserSerializer
+from apps.tg.serializers.telegram_link_serializer import TelegramLinkSerializer
+from apps.tg.models import TelegramAccount
 
 
 class TelegramLinkAPIView(APIView):
