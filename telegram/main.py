@@ -53,10 +53,8 @@ async def start(message: Message):
             await message.answer("Что-то пошло не так... Пожалуйста, попробуйте позже, или обратитесь в поддержку")
             return
         
-        msg = f"{response["data"]["user"]["first_name"]}, ваш аккаунт успешно привязан и вы будете получать уведомления!"
+        msg = f"{response['data']['user']['first_name']}, ваш аккаунт успешно привязан и вы будете получать уведомления!"
         await message.answer(msg)
-
-    await message.answer(signature)
 
 def main():
     dp.run_polling(bot, skip_updates=True)
