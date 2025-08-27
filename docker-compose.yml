@@ -74,6 +74,14 @@ services:
             - django
         ports:
             - "80:80"
+    telegram:
+        build:
+            context: ./telegram
+            dockerfile: Dockerfile
+        container_name: fpin-tgbot
+        networks:
+            - pindb-network
+
 networks:
     pindb-network:
 volumes:
