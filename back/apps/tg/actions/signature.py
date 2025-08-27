@@ -1,8 +1,8 @@
 import hashlib
 import typing as tp
 
-from back.apps.tg.domain.exceptions.crypto.hash_not_found_exception import HashNotFoundException
-from back.apps.tg.domain.exceptions.crypto.signature_invalid import SignatureInvalidException
+from apps.tg.domain.exceptions.crypto.hash_not_found_exception import HashNotFoundException
+from apps.tg.domain.exceptions.crypto.signature_invalid import SignatureInvalidException
 
 def validate_signature(data: tp.Dict, token: str) -> bool:
     try:
