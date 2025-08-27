@@ -18,7 +18,7 @@ def validate_signature(data: tp.Dict, token: str) -> bool:
     values_string = ":".join(values)
     evalued_hash = hashlib.sha256(values_string.encode("utf-8")).hexdigest()
 
-    if hash != evalued_hash:
+    if hash[0] != evalued_hash:
         raise SignatureInvalidException("Signature is invalid")
     
     return True
