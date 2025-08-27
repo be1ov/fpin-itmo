@@ -1,3 +1,4 @@
+from copy import deepcopy
 from django.conf import settings
 from django.db import transaction
 from rest_framework import status
@@ -20,7 +21,7 @@ class TelegramLinkAPIView(APIView):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-        data = request.data
+        data = deepcopy(request.data)
 
         try:
             validate_signature(data, token=settings.BOT_TOKEN)
