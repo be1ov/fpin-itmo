@@ -1,0 +1,54 @@
+from django.conf import settings
+from django.db import transaction
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from actions.signature import (
+    HashNotFoundException,
+    SignatureInvalidException,
+    validate_signature,
+)
+from back.apps.persons.serializers import ServiceUserSerializer
+from serializers.telegram_link_serializer import TelegramLinkSerializer
+from models import TelegramAccount
+
+
+class TelegramLinkAPIView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        data = request.data
+
+        try:
+            validate_signature(data, token=settings.BOT_TOKEN)
+        except (HashNotFoundException, SignatureInvalidException) as e:
+            return Response({"status": "error", "message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = TelegramLinkSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        v = serializer.validated_data
+
+        try:
+            acc = TelegramAccount.objects.get(id=v["id"])
+        except TelegramAccount.DoesNotExist:
+            return Response({
+                "status": "error",
+                "message": "invalid_id"
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        acc.is_confirmed = True
+        acc.telegram_id = v["telegram_id"]
+        acc.save()
+
+        return Response(
+            {
+                "status": "ok",
+                "data": {
+                    "user": ServiceUserSerializer(acc.user).data
+                }
+            },
+            status=status.HTTP_200_OK,
+        )

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'explorer',
     'apps.projects',
-    'apps.learnsql_integration'
+    'apps.learnsql_integration',
+    'apps.tg'
 ]
 
 MIDDLEWARE = [
@@ -185,3 +186,5 @@ LEARN_SQL_BASE_URL = "https://learnsql.ru/"
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")

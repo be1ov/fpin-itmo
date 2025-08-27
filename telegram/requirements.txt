@@ -1,0 +1,5 @@
+aiogram_dialog
+pydantic
+pydantic-settings
+redis
+httpx

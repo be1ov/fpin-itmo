@@ -33,6 +33,7 @@ from apps.education.views.tasks import TaskView, TaskAssignView
 from apps.persons.views import PersonViewSet, CurrentUserView, UsersViewSet
 from apps.tests.views import GetTestsAPIView, OnlineTestPadResultsAPIView, GetTestAssignmentAPIView, \
     CreateAttemptAPIView
+from apps.tg.views import TelegramLinkAPIView
 from db_lk import settings
 
 router = DefaultRouter()
@@ -60,6 +61,7 @@ api_urls = [
     path("onlinetestpad_results/", OnlineTestPadResultsAPIView.as_view()),
     path("github/link/", GithubLinkAPIView.as_view()),
     path("table/", TableAPIView.as_view()),
+    path("tg/link", TelegramLinkAPIView.as_view()),
     path("", include(router.urls)),
 ]
 

@@ -1,0 +1,2 @@
+class HashNotFoundException(Exception):
+    pass
