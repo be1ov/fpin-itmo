@@ -20,4 +20,5 @@ class ServiceUserSerializer(serializers.ModelSerializer):
         return obj.last_name + " " + obj.first_name[0] + "." + (f" {obj.patronymic[0]}." if obj.patronymic else "")
     
     def get_telegram(self, obj):
-        return TelegramLinkSerializer(obj.telegramaccount) if obj.telegramaccount else None
+        tg_account = getattr(obj, "telegramaccount", None)
+        return TelegramLinkSerializer(tg_account) if tg_account else None
