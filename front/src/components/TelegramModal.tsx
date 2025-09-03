@@ -25,6 +25,8 @@ export default function TelegramModal() {
         </Typography.Paragraph>
         <Button ref={btnRef} type="primary" href={
             auth.user?.telegram?.link || "#"
-        } target="_blank" rel="noreferrer">Привязать Telegram</Button>
+        } target="_blank" rel="noreferrer" onClick={() => {
+            setIsOpen(false);
+        }}>Привязать Telegram</Button>
     </Modal>
 }
