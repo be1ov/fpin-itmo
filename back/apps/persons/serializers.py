@@ -1,5 +1,5 @@
-from back.apps.tg.actions.accounts import get_telegram_account
-from back.apps.tg.models import TelegramAccount
+from apps.tg.actions.accounts import get_telegram_account
+from apps.tg.models import TelegramAccount
 from rest_framework import serializers
 
 from apps.persons.models import ServiceUser
