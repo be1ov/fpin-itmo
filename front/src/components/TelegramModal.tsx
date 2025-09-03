@@ -10,7 +10,7 @@ export default function TelegramModal() {
 
     const auth = useSelector(selectAuth)
     useEffect(() => {
-        setIsOpen(!!auth.user && !auth.user.telegram);
+        setIsOpen(!!auth.user && !auth.user.telegram?.is_confirmed);
     }, [auth])
 
     return <Modal title="Привязка Telegram" open={isOpen} onCancel={() => { setIsOpen(false) }} footer={null}>
