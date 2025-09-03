@@ -1,3 +1,5 @@
+from back.apps.tg.actions.accounts import get_telegram_account
+from back.apps.tg.models import TelegramAccount
 from rest_framework import serializers
 
 from apps.persons.models import ServiceUser
@@ -20,5 +22,5 @@ class ServiceUserSerializer(serializers.ModelSerializer):
         return obj.last_name + " " + obj.first_name[0] + "." + (f" {obj.patronymic[0]}." if obj.patronymic else "")
     
     def get_telegram(self, obj):
-        tg_account = getattr(obj, "telegramaccount", None)
+        tg_account = get_telegram_account(obj)
         return TelegramLinkSerializer(tg_account).data if tg_account else None

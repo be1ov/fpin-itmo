@@ -9,6 +9,7 @@ import {selectAuth} from "../redux/slices/AuthSlice.ts";
 import {GithubOutlined} from "@ant-design/icons";
 import {GithubLink} from "../utils/github.ts";
 import {useLocation} from "react-router-dom";
+import TelegramModal from "../components/TelegramModal.tsx";
 
 interface Announcement {
     id: number;
@@ -53,6 +54,7 @@ export default function HomePage() {
 
     return (
         <LayoutComponent>
+            <TelegramModal />
             {contextHolder}
             <Space direction={"vertical"} style={{
                 width: "100%",
@@ -72,6 +74,8 @@ export default function HomePage() {
                             GithubLink()
                         }}>Привязать GitHub</Button>}/>
                 }
+
+                
 
                 <Row gutter={[16, 16]}>
                     <Col sm={18}>
