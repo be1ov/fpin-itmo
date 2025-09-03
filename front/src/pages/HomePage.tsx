@@ -75,8 +75,6 @@ export default function HomePage() {
                         }}>Привязать GitHub</Button>}/>
                 }
 
-                
-
                 <Row gutter={[16, 16]}>
                     <Col sm={18}>
                         <Card title={<Row style={{

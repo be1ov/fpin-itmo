@@ -6,4 +6,6 @@ def get_telegram_account(user: ServiceUser) -> "TelegramAccount":
     try:
         return user.telegramaccount
     except TelegramAccount.DoesNotExist:
-        return TelegramAccount(user=user).save()
+        account =  TelegramAccount(user=user)
+        account.save()
+        return account
