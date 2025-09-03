@@ -51,7 +51,6 @@ async def start(message: Message):
     ) as client:
         r = await client.post("/tg/link", data=data)
         response = r.json()
-        await message.answer(json.dumps(response))
         if r.status_code != 200:
             await message.answer("Что-то пошло не так... Пожалуйста, попробуйте позже, или обратитесь в поддержку")
             return
