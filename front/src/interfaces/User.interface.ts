@@ -1,3 +1,5 @@
+import { ITelegramAccount } from "./ITelegramAccount.interface";
+
 export interface User {
     id: number;
     full_name: string;
@@ -9,4 +11,5 @@ export interface User {
     is_approved: boolean;
     is_staff: boolean;
     github?: string;
+    telegram?: ITelegramAccount;
 }

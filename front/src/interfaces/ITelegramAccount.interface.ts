@@ -1,5 +1,6 @@
 export interface ITelegramAccount {
   id: string;
-  isConfirmed: boolean;
-  telegramId: number;
+  is_confirmed: boolean;
+  telegram_id: number;
+  link: string;
 }
