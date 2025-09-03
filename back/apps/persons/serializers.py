@@ -21,4 +21,4 @@ class ServiceUserSerializer(serializers.ModelSerializer):
     
     def get_telegram(self, obj):
         tg_account = getattr(obj, "telegramaccount", None)
-        return TelegramLinkSerializer(tg_account) if tg_account else None
+        return TelegramLinkSerializer(tg_account).data if tg_account else None
