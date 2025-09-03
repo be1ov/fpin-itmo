@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from apps.persons.models import ServiceUser
-from back.apps.tg.serializers.telegram_link_serializer import TelegramLinkSerializer
+from apps.tg.serializers.telegram_link_serializer import TelegramLinkSerializer
 
 
 class ServiceUserSerializer(serializers.ModelSerializer):
