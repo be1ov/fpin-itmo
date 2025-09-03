@@ -10,6 +10,8 @@ from aiogram.types import Message
 
 from utils.api_client import APIClient
 
+import json
+
 DEBUG = True
 
 if DEBUG:
@@ -49,6 +51,7 @@ async def start(message: Message):
     ) as client:
         r = await client.post("/tg/link", data=data)
         response = r.json()
+        await message.answer(json.dumps(response))
         if r.status_code != 200:
             await message.answer("Что-то пошло не так... Пожалуйста, попробуйте позже, или обратитесь в поддержку")
             return

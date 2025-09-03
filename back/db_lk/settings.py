@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-8&3hex#26676-@1udrqv@gt9a%)w7n+#12@52s8g16&4*2sioy
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "fpin-itmo.ru", "localhost:1727", "5371-5-34-212-13.ngrok-free.app"]
+ALLOWED_HOSTS = ["localhost", "fpin-itmo.ru", "localhost:1727", "5371-5-34-212-13.ngrok-free.app", "django"]
 CSRF_TRUSTED_ORIGINS = ["https://fpin-itmo.ru", "http://localhost:1727", "https://5371-5-34-212-13.ngrok-free.app"]
 # Application definition
 
