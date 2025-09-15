@@ -133,7 +133,11 @@ class TaskAssignView(APIView):
         if dates is None:
             return Response({"status": "error", "message": "No dates provided"})
 
-        dates = list(map(datetime.datetime.fromisoformat, dates))
+        # dates = list(map(datetime.datetime.fromisoformat, dates))
+        dates = {
+            "start_date": datetime.datetime.fromisoformat(dates.get("start_date")),
+            "end_date": datetime.datetime.fromisoformat(dates.get("end_date")),
+        }
 
         deadline_fees = data.get("deadline_fees", False)
         if deadline_fees:
