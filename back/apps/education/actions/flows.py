@@ -1,5 +1,5 @@
-import datetime
-
+from datetime import datetime
+import typing as tp
 from django.utils import timezone
 
 from apps.education.actions.semester import current_semester
@@ -13,7 +13,8 @@ def get_available_flows():
         semester=semester,
     ).all()
 
-def get_users_flows(user: ServiceUser, date: datetime=None):
+
+def get_users_flows(user: ServiceUser, date: tp.Optional[datetime] = None):
     if date is None:
         date = timezone.now()
 
@@ -24,4 +25,6 @@ def get_users_flows(user: ServiceUser, date: datetime=None):
         is_approved=True,
     )
 
-    return Flow.objects.filter(id__in=students.values_list('flow', flat=True)).distinct()
+    return Flow.objects.filter(
+        id__in=students.values_list("flow", flat=True)
+    ).distinct()
