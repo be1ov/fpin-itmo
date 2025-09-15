@@ -35,4 +35,4 @@ class ApiManager:
             if r.status_code != 200:
                 raise LinkingException(f"Linking failed: {response}")
 
-            return LinkUserResponseDto(**response)
+            return LinkUserResponseDto(**response["data"])
