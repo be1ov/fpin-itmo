@@ -79,6 +79,17 @@ services:
             context: ./telegram
             dockerfile: Dockerfile
         container_name: fpin-tgbot
+        command: python main.py --bot
+        networks:
+            - pindb-network
+    telegram-web:
+        build:
+            context: ./telegram
+            dockerfile: Dockerfile
+        container_name: fpin-tgbot-web
+        command: python main.py --web
+        ports:
+            - "8000"
         networks:
             - pindb-network
         env_file:

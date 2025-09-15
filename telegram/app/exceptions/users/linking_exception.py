@@ -1,0 +1,2 @@
+class LinkingException(Exception):
+    pass

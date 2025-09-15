@@ -1,0 +1,38 @@
+from aiogram import Bot, Dispatcher
+from app.config.settings import settings
+
+from app.config.settings import settings
+from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
+import redis.asyncio as Redis
+
+from app.dependencies.managers.api_manager import ApiManager
+
+
+bot = Bot(token=settings.BOT_TOKEN)
+
+
+class BotManager:
+    def __init__(self, api_manager: ApiManager):
+        self._bot = Bot(token=settings.BOT_TOKEN)
+        if settings.DEBUG:
+            self._storage = MemoryStorage()
+        else:
+            self._redis = Redis.from_url(settings.REDIS_URL)
+            self._storage = RedisStorage(redis=self._redis)
+
+        self._dp = Dispatcher(storage=self._storage)
+
+        self._api_manager = api_manager
+
+    @property
+    def api_manager(self):
+        return self._api_manager
+
+    @property
+    def bot(self):
+        return self._bot
+
+    @property
+    def dp(self):
+        return self._dp
