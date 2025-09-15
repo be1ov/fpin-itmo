@@ -70,7 +70,7 @@ class TestSendingMessageAPIView(APIView):
         with httpx.Client() as client:
             response = client.post(
                 settings.BOT_API_URL + "/send/",
-                data=request_data,
+                json=request_data,
                 timeout=10.0,
             )
             return Response(response.json(), status=response.status_code)
