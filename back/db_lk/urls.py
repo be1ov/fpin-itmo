@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -21,9 +22,19 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt import views as jwt_views
 
 from apps.attendance.views import UploadAttendanceView
-from apps.core.views import FileUploadView, SignUpView, GithubLinkAPIView, GithubAuthAPIView
-from apps.education.views import SemesterViewSet, EducationViewSet, AvailableFlowsView, SaveUserFlowsRequestView, \
-    AddSubmissionStatusView
+from apps.core.views import (
+    FileUploadView,
+    SignUpView,
+    GithubLinkAPIView,
+    GithubAuthAPIView,
+)
+from apps.education.views import (
+    SemesterViewSet,
+    EducationViewSet,
+    AvailableFlowsView,
+    SaveUserFlowsRequestView,
+    AddSubmissionStatusView,
+)
 from apps.education.views.bars import BarsStatesView
 from apps.education.views.lessons import LessonsView
 from apps.education.views.points import PointsView, SetPointsView
@@ -31,16 +42,20 @@ from apps.education.views.submissions import SubmissionStatusAttachments
 from apps.education.views.table import TableAPIView
 from apps.education.views.tasks import TaskView, TaskAssignView
 from apps.persons.views import PersonViewSet, CurrentUserView, UsersViewSet
-from apps.tests.views import GetTestsAPIView, OnlineTestPadResultsAPIView, GetTestAssignmentAPIView, \
-    CreateAttemptAPIView
-from apps.tg.views import TelegramLinkAPIView
+from apps.tests.views import (
+    GetTestsAPIView,
+    OnlineTestPadResultsAPIView,
+    GetTestAssignmentAPIView,
+    CreateAttemptAPIView,
+)
+from apps.tg.views import TelegramLinkAPIView, TestSendingMessageAPIView
 from db_lk import settings
 
 router = DefaultRouter()
-router.register(r'people', PersonViewSet)
-router.register(r'semester', SemesterViewSet)
-router.register(r'education', EducationViewSet, basename='education')
-router.register(r'users', UsersViewSet, basename='users')
+router.register(r"people", PersonViewSet)
+router.register(r"semester", SemesterViewSet)
+router.register(r"education", EducationViewSet, basename="education")
+router.register(r"users", UsersViewSet, basename="users")
 
 api_urls = [
     path("flows/", AvailableFlowsView.as_view()),
@@ -63,16 +78,25 @@ api_urls = [
     path("table/", TableAPIView.as_view()),
     path("tg/link", TelegramLinkAPIView.as_view()),
     path("", include(router.urls)),
+    path("tg/test_send_message/", TestSendingMessageAPIView.as_view()),
 ]
 
 urlpatterns = [
-    path('sql_explorer/', include('explorer.urls')),
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(api_urls)),
-    path('api/auth/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/auth/me/', CurrentUserView.as_view(), name='current_user'),
-    path('api/auth/github/', GithubAuthAPIView.as_view()),
-    path('api/auth/signup', SignUpView.as_view()),
+    path("sql_explorer/", include("explorer.urls")),
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(api_urls)),
+    path(
+        "api/auth/token/",
+        jwt_views.TokenObtainPairView.as_view(),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/auth/token/refresh/",
+        jwt_views.TokenRefreshView.as_view(),
+        name="token_refresh",
+    ),
+    path("api/auth/me/", CurrentUserView.as_view(), name="current_user"),
+    path("api/auth/github/", GithubAuthAPIView.as_view()),
+    path("api/auth/signup", SignUpView.as_view()),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

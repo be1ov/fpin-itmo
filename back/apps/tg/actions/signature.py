@@ -1,15 +1,27 @@
 import hashlib
 import typing as tp
 
-from apps.tg.domain.exceptions.crypto.hash_not_found_exception import HashNotFoundException
+from apps.tg.domain.exceptions.crypto.hash_not_found_exception import (
+    HashNotFoundException,
+)
 from apps.tg.domain.exceptions.crypto.signature_invalid import SignatureInvalidException
+
 
 def validate_signature(data: tp.Dict, token: str) -> bool:
     try:
         hash = data.pop("hash")
     except KeyError:
         raise HashNotFoundException("data must contain hash field")
-    
+
+    evalued_hash = generate_signature(data, token)
+
+    if hash[0] != evalued_hash:
+        raise SignatureInvalidException("Signature is invalid")
+
+    return True
+
+
+def generate_signature(data: tp.Dict, token: str) -> str:
     keys = list(data.keys())
     sorted_keys = sorted(keys)
     values = [f"{key}={data[key]}" for key in sorted_keys]
@@ -18,8 +30,4 @@ def validate_signature(data: tp.Dict, token: str) -> bool:
     values_string = ":".join(values)
     evalued_hash = hashlib.sha256(values_string.encode("utf-8")).hexdigest()
 
-    if hash[0] != evalued_hash:
-        raise SignatureInvalidException("Signature is invalid")
-    
-    return True
-    
+    return evalued_hash

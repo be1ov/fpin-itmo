@@ -7,3 +7,4 @@ django-sql-explorer
 requests~=2.32.3
 redis
 celery
+httpx

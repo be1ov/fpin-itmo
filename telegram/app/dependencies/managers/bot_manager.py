@@ -36,3 +36,6 @@ class BotManager:
     @property
     def dp(self):
         return self._dp
+
+    async def send_message(self, chat_id: int, text: str):
+        return await self._bot.send_message(chat_id=chat_id, text=text)
