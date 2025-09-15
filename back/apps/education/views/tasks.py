@@ -10,21 +10,28 @@ from apps.education.models import TaskAssignment
 from apps.education.serializers import TaskSerializer, FlowSerializer
 from apps.tasks.models import Task
 
+import datetime
+
 
 class TaskView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         if "id" in request.query_params.keys():
-            task = get_task_by_id(request.query_params['id'])
-            flows = [assignment.flow for assignment in TaskAssignment.objects.filter(task=task)]
-            return Response({
-                "status": "success",
-                "data": {
-                    "task": TaskSerializer(task).data,
-                    "flows": FlowSerializer(flows, many=True).data
+            task = get_task_by_id(request.query_params["id"])
+            flows = [
+                assignment.flow
+                for assignment in TaskAssignment.objects.filter(task=task)
+            ]
+            return Response(
+                {
+                    "status": "success",
+                    "data": {
+                        "task": TaskSerializer(task).data,
+                        "flows": FlowSerializer(flows, many=True).data,
+                    },
                 }
-            })
+            )
 
         tasks = get_tasks()
         return Response(
@@ -39,28 +46,28 @@ class TaskView(APIView):
 
         action = data.get("action", None)
         if action is None:
-            return Response({
-                "status": "error",
-                "message": "No action provided"
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"status": "error", "message": "No action provided"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         task_data = data.get("data", {})
 
         if action == "update":
             task_id = task_data.get("id", None)
             if not task_id:
-                return Response({
-                    "status": "error",
-                    "message": "Task ID is required for update"
-                }, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    {"status": "error", "message": "Task ID is required for update"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
             try:
                 task = Task.objects.get(id=task_id)
             except Task.DoesNotExist:
-                return Response({
-                    "status": "error",
-                    "message": "Task not found"
-                }, status=status.HTTP_404_NOT_FOUND)
+                return Response(
+                    {"status": "error", "message": "Task not found"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
             serializer = TaskSerializer(task, data=task_data, partial=True)
         else:
@@ -68,44 +75,36 @@ class TaskView(APIView):
 
         if serializer.is_valid():
             task = serializer.save()
-            return Response({
-                "status": "success",
-                "data": TaskSerializer(task).data
-            }, status=status.HTTP_200_OK)
+            return Response(
+                {"status": "success", "data": TaskSerializer(task).data},
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response({
-                "status": "error",
-                "message": "Invalid task object",
-                "errors": serializer.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    "status": "error",
+                    "message": "Invalid task object",
+                    "errors": serializer.errors,
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def delete(self, request):
         id = request.query_params.get("id", None)
         if id is None:
-            return Response({
-                "status": "error",
-                "message": "No task id provided"
-            })
+            return Response({"status": "error", "message": "No task id provided"})
 
         try:
             id = int(id)
         except ValueError:
-            return Response({
-                "status": "error",
-                "message": "Invalid task id"
-            })
+            return Response({"status": "error", "message": "Invalid task id"})
 
         task = get_task_by_id(id)
         if task is None:
-            return Response({
-                "status": "error",
-                "message": "Task not found"
-            })
+            return Response({"status": "error", "message": "Task not found"})
 
         task.delete()
-        return Response({
-            "status": "success"
-        })
+        return Response({"status": "success"})
 
 
 class TaskAssignView(APIView):
@@ -116,17 +115,11 @@ class TaskAssignView(APIView):
 
         task_id = data.get("task", None)
         if task_id is None:
-            return Response({
-                "status": "error",
-                "message": "No task id provided"
-            })
+            return Response({"status": "error", "message": "No task id provided"})
 
         task = get_task_by_id(task_id)
         if task is None:
-            return Response({
-                "status": "error",
-                "message": "Task not found"
-            })
+            return Response({"status": "error", "message": "Task not found"})
 
         bars_state_id = data.get("bars_state", None)
         try:
@@ -135,12 +128,12 @@ class TaskAssignView(APIView):
             bars_state_id = None
 
         bars_state = get_bars_state(bars_state_id)
+
         dates = data.get("dates", None)
         if dates is None:
-            return Response({
-                "status": "error",
-                "message": "No dates provided"
-            })
+            return Response({"status": "error", "message": "No dates provided"})
+
+        dates = map(datetime.datetime.fromisoformat, dates)
 
         deadline_fees = data.get("deadline_fees", False)
         if deadline_fees:
@@ -152,10 +145,7 @@ class TaskAssignView(APIView):
 
         max_points = data.get("max_points", None)
         if max_points is None and bars_state is None:
-            return Response({
-                "status": "error",
-                "message": "No max_points provided"
-            })
+            return Response({"status": "error", "message": "No max_points provided"})
 
         for flow in flows:
             assigned_tasks = [a.task for a in get_assigned_tasks([flow])]
@@ -173,6 +163,4 @@ class TaskAssignView(APIView):
             )
             task_assignment.save()
 
-        return Response({
-            "status": "success"
-        })
+        return Response({"status": "success"})
