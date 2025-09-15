@@ -22,9 +22,6 @@ def send_message_after_task_assignment(
     )
 
     for student in students:
-        if not student.user.is_staff:
-            continue
-
         tg = getattr(student.user, "telegramaccount", None)
         if not tg or not (tg.is_confirmed and tg.telegram_id):
             continue
