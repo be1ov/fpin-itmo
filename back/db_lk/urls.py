@@ -77,8 +77,8 @@ api_urls = [
     path("github/link/", GithubLinkAPIView.as_view()),
     path("table/", TableAPIView.as_view()),
     path("tg/link", TelegramLinkAPIView.as_view()),
-    path("", include(router.urls)),
     path("tg/test_send_message/", TestSendingMessageAPIView.as_view()),
+    path("", include(router.urls)),
 ]
 
 urlpatterns = [
