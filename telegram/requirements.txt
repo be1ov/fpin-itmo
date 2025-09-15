@@ -1,5 +1,7 @@
 aiogram_dialog
+aiogram
 pydantic
 pydantic-settings
 redis
 httpx
+fastapi
