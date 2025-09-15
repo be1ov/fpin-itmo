@@ -82,6 +82,8 @@ services:
         command: python main.py --bot
         networks:
             - pindb-network
+        env_file:
+            - .env
     telegram-web:
         build:
             context: ./telegram
