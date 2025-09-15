@@ -1,5 +1,6 @@
 from app.dependencies.managers.api_manager import ApiManager
 from app.dependencies.managers.bot_manager import BotManager
+from app.config.settings import settings
 
 
 class Dispatcher:
@@ -8,7 +9,7 @@ class Dispatcher:
 
     @property
     def api(self):
-        return ApiManager()
+        return ApiManager(secret_string=settings.BOT_TOKEN)
 
     @property
     def bot(self):
