@@ -11,6 +11,8 @@ async def send_implementation(body: SendSchema):
 
         try:
             bot = dispatcher.bot
-            await bot.bot.send_message(chat_id=body.recipient_id, text=body.message)
+            await bot.bot.send_message(
+                chat_id=body.recipient_id, text=body.message, parse_mode="HTML"
+            )
         except Exception as e:
             raise HTTPException(status_code=500, detail="Failed to send message")
