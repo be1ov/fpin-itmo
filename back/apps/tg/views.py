@@ -59,7 +59,7 @@ class TestSendingMessageAPIView(APIView):
     authentication_classes = []
     permission_classes = []
 
-    async def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         request_data = {
             "recipient_id": request.query_params.get("recipient_id"),
             "message": request.query_params.get("message", "test message"),
@@ -67,8 +67,8 @@ class TestSendingMessageAPIView(APIView):
         hash = generate_signature(request_data, token=settings.BOT_TOKEN)
         request_data["hash"] = hash
 
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
+        with httpx.Client() as client:
+            response = client.post(
                 settings.BOT_API_URL + "/send/",
                 data=request_data,
                 timeout=10.0,

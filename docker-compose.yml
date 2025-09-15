@@ -90,8 +90,6 @@ services:
             dockerfile: Dockerfile
         container_name: fpin-tgbot-web
         command: python main.py --web
-        ports:
-            - "8000"
         networks:
             - pindb-network
         env_file:
