@@ -22,7 +22,7 @@ def send_message_after_task_assignment(
     )
 
     for student in students:
-        if not student.user.is_admin:
+        if not student.user.is_staff:
             continue
 
         tg = getattr(student.user, "telegramaccount", None)
