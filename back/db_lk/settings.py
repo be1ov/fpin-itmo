@@ -196,5 +196,5 @@ LEARN_SQL_BASE_URL = "https://learnsql.ru/"
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
-BOT_API_URL = "http://telegram-web:8000/"
+BOT_API_URL = "http://telegram-web:8000"
 BOT_TOKEN = os.getenv("BOT_TOKEN")
