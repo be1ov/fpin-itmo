@@ -1,7 +1,7 @@
 from aiogram_dialog import Window
 from aiogram_dialog.widgets.text import Const
 
-from telegram.app.bot.states.main import MainStates
+from app.bot.states.main import MainStates
 
 main_menu_window = Window(
     Const("Главное меню"),

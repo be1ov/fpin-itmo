@@ -8,8 +8,8 @@ from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from app.schemas.dto.LinkUserDto import LinkUserDto
 from app.exceptions.users.linking_exception import LinkingException
 
-from telegram.app.bot.dialogs.main import main_dialog
-from telegram.app.bot.dialogs.main.windows.main_menu_window import MainStates
+from app.bot.dialogs.main import main_dialog
+from app.bot.dialogs.main.windows.main_menu_window import MainStates
 
 dispatcher = Dispatcher()
 dp = dispatcher.bot.dp
