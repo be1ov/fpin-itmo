@@ -8,10 +8,6 @@ import redis.asyncio as Redis
 
 from app.dependencies.managers.api_manager import ApiManager
 
-
-bot = Bot(token=settings.BOT_TOKEN)
-
-
 class BotManager:
     def __init__(self, api_manager: ApiManager):
         self._bot = Bot(token=settings.BOT_TOKEN)
@@ -21,7 +17,7 @@ class BotManager:
             self._redis = Redis.from_url(settings.REDIS_URL)
             self._storage = RedisStorage(redis=self._redis)
 
-        self._dp = Dispatcher(storage=self._storage)
+        self._dp = Dispatcher(storage=self._storage, with_destiny=True)
 
         self._api_manager = api_manager
 

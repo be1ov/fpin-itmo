@@ -15,9 +15,8 @@ dispatcher = Dispatcher()
 dp = dispatcher.bot.dp
 bot = dispatcher.bot.bot
 api_manager = dispatcher.bot.api_manager
-
-setup_dialogs(dp)
 dp.include_router(main_dialog)
+setup_dialogs(dp)
 
 @dp.message(Command("start"))
 async def start_handler(message: Message):
