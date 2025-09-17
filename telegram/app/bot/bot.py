@@ -1,4 +1,6 @@
 from uuid import UUID
+
+from aiogram_dialog import DialogManager, StartMode, setup_dialogs
 from app.dependencies.managers.dispatcher import Dispatcher
 from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
@@ -6,11 +8,16 @@ from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from app.schemas.dto.LinkUserDto import LinkUserDto
 from app.exceptions.users.linking_exception import LinkingException
 
+from telegram.app.bot.dialogs.main import main_dialog
+from telegram.app.bot.dialogs.main.windows.main_menu_window import MainStates
+
 dispatcher = Dispatcher()
 dp = dispatcher.bot.dp
 bot = dispatcher.bot.bot
 api_manager = dispatcher.bot.api_manager
 
+setup_dialogs(dp)
+dp.include_router(main_dialog)
 
 @dp.message(Command("start"))
 async def start_handler(message: Message):
@@ -55,6 +62,10 @@ async def start_handler(message: Message):
                 ]
             ),
         )
+
+@dp.message(Command("menu"))
+async def menu_handler(message: Message, dialog_manager: DialogManager):
+    await dialog_manager.start(MainStates.main_menu, mode=StartMode.RESET_STACK)
 
 
 def start():

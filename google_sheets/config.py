@@ -10,4 +10,4 @@ class CelerySettings(BaseSettings):
         "extra": "allow"
     }
 
-settings = CelerySettings()
+settings = CelerySettings() # type: ignore

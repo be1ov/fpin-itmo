@@ -1,4 +1,4 @@
-aiogram_dialog
+aiogram-dialog
 aiogram
 pydantic
 pydantic-settings
