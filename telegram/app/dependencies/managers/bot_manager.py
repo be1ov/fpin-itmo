@@ -1,4 +1,5 @@
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.base import DefaultKeyBuilder
 from app.config.settings import settings
 
 from app.config.settings import settings
@@ -15,9 +16,13 @@ class BotManager:
             self._storage = MemoryStorage()
         else:
             self._redis = Redis.from_url(settings.REDIS_URL)
-            self._storage = RedisStorage(redis=self._redis)
+            self._storage = RedisStorage(
+                redis=self._redis,
+                key_builder=DefaultKeyBuilder(with_destiny=True, prefix="fsm:"),
+            )
 
-        self._dp = Dispatcher(storage=self._storage, with_destiny=True)
+        self._dp = Dispatcher(storage=self._storage)
+        
 
         self._api_manager = api_manager
 
