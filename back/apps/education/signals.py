@@ -1,4 +1,4 @@
-from apps.education.models import TaskAssignment
+from apps.education.models import PointsEntrance, TaskAssignment
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from apps.tg.actions.sending import send_message
@@ -37,3 +37,27 @@ def send_message_after_task_assignment(
 """
 
         send_message(tg.telegram_id, message)
+
+
+@receiver(post_save, sender=PointsEntrance)
+def send_message_after_points_set(
+    sender, instance: PointsEntrance, created, **kwargs
+):
+    if not created:
+        return
+    
+    student = instance.student
+    tg = getattr(student.user, "telegramaccount", None)
+    if not tg or not (tg.is_confirmed and tg.telegram_id):
+        return
+
+
+    message = f"""<b>🔔 Новые баллы!</b>
+
+<b>📚 Задание:</b> {instance.task_submission.assignment.task.title}
+
+<b>Баллы: </b> {instance.amount}
+<b>Выставил: </b> {instance.author.full_name()}
+"""
+
+    send_message(tg.telegram_id, message)
